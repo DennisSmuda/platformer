@@ -81,6 +81,7 @@ function Player:move(dt)
 
       if normal.x == -1 then
         self.isOnWall = true
+
       end
     end
 
@@ -116,12 +117,23 @@ end
 function Player:handleInput(dt)
   if love.keyboard.isDown("space") or love.keyboard.isDown("w") then
     local now = love.timer.getTime()
-    if now - self.timeJumped > self.jumpDelay and self.grounded == true then
+    local canJump = now - self.timeJumped > self.jumpDelay
+
+    if canJump and self.grounded == true then
       print("Jump")
       self.grounded = false
       -- self.yVel =  -self.jumpForce*dt
       self.yVel = -200*dt
       self.timeJumped = now
+    end
+
+    if canJump and self.isOnWall then
+      print("Wall Jump")
+      self.timeJumped = now
+      if self.direction == 'right' then
+        self.xVel = -200*dt
+        self.yVel = -200*dt
+      end
     end
   end
   if love.keyboard.isDown("a") or love.keyboard.isDown("left") then

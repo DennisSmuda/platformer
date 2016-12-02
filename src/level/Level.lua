@@ -1,3 +1,4 @@
+require "src.level.Cloud"
 
 Level = class('Level')
 
@@ -38,5 +39,6 @@ function Level:draw()
   for i,tile in ipairs(self.platforms) do
     tile:draw()
   end
+
 
 end

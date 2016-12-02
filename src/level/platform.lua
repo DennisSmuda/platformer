@@ -25,7 +25,7 @@ function Platform:draw ()
   -- love.graphics.setColor(255, 255, 255, 200)
   -- love.graphics.rectangle("fill", self.x, self.x, 16, 16)
   if self.type > 0 then
-    love.graphics.draw(tileset, platform_plain, self.x, self.y)
+    love.graphics.draw(tileset, block, self.x, self.y)
   end
 
 end

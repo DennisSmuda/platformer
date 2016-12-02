@@ -22,8 +22,9 @@ function Game.load (args)
   local scanlines = shine.scanlines()
   scanlines.parameters = {pixel_size = 3, opacity = 0.2 }
   local vignette  = shine.vignette()
-  vignette.parameters = {radius = 0.7, opacity = 0.2}
-  post_effect = scanlines:chain(grain):chain(vignette)
+  vignette.parameters = {radius = 0.7, opacity = 0.3}
+  -- post_effect = scanlines:chain(grain):chain(vignette)
+  post_effect = scanlines:chain(grain)
 
 
   --== Setup Game World
@@ -33,6 +34,7 @@ function Game.load (args)
 
   player = Player()
   platform = Platform(1,1)
+  cloud = Cloud()
 
 
   --== Camera
@@ -68,9 +70,11 @@ function Game.draw()
 
 
 
-  post_effect:draw(function()
+  -- post_effect:draw(function()
 
     camera:attach()
+
+      cloud:draw()
 
       player:draw()
       -- platform:draw()
@@ -78,7 +82,7 @@ function Game.draw()
 
     camera:detach()
 
-  end)
+  -- end)
 
 end
 

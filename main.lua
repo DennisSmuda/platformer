@@ -39,7 +39,7 @@ function love.load()
   if arg[#arg] == "-debug" then require("mobdebug").start() end -- Debug code for ZeroBrane
   love.window.setMode(1000, 600, {fullscreen=false, vsync=true, resizable=false})
 
-  love.graphics.setBackgroundColor(15, 104, 170)
+  love.graphics.setBackgroundColor(95, 205, 228)
   font = love.graphics.newFont("assets/fonts/slkscr.ttf", 40)
   love.graphics.setFont(font)
 
@@ -62,8 +62,12 @@ end
 
 
 function loadGraphics()
+  cloud_img = love.graphics.newImage("assets/img/cloud.png")
+  cloud_img:setFilter("nearest", "nearest")
   tileset = love.graphics.newImage("assets/img/tileset.png")
+  tileset:setFilter("nearest", "nearest")
   platform_plain = love.graphics.newQuad(32, 0, 16, 16, tileset:getDimensions())
+  block = love.graphics.newQuad(0, 16, 16, 16, tileset:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
   playerset:setFilter("nearest", "nearest")
