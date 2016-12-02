@@ -4,7 +4,7 @@ Level = class('Level')
 
 function Level:initialize()
   self.platforms = {}
-  map = require("assets.data.testlevel")["layers"][1]
+  map = require("assets.data.testlevel_2")["layers"][1]
   --== Map stored as 1-D Array of ID's
   mapData = map.data
   mapWidth = map.width
