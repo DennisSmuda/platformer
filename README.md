@@ -1,5 +1,5 @@
-# Breakout Clone
+# Platformer
 
 made with [löve](http://www.love2d.org)
 
-![screenshot](breakout_screen.png)
+![screenshot](screen.png)
