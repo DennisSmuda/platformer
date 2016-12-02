@@ -67,9 +67,11 @@ function loadGraphics()
 
   playerset = love.graphics.newImage("assets/img/player.png")
   playerset:setFilter("nearest", "nearest")
-  playerG = anim8.newGrid(16,16, playerset:getDimensions())
+  playerG = anim8.newGrid(12,12, playerset:getDimensions())
   walkingAnim = anim8.newAnimation(playerG('1-2', 1), 0.15)
   idleAnim = anim8.newAnimation(playerG('1-2', 2), 0.3)
+  jumpAnim = anim8.newAnimation(playerG('3-4', 1), 0.2)
+  wallSlideAnim = anim8.newAnimation(playerG('5-6', 1), 0.2)
   -- walkingLeft = anim8.newAnimation(playerG('4-6', 1), 0.15)
 
 end
