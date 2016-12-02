@@ -6,7 +6,7 @@ function Platform:initialize(x,y, type)
   self.x = x*16
   self.y = y*16
   self.width = 16
-  self.height = 16
+  self.height = 8
   self.type = type
 
   if self.type then

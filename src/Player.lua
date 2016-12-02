@@ -10,12 +10,15 @@ function Player:initialize()
   self.xVel = 0
   self.yVel = 0
   self.speed = 20
-  self.friction = 5
+  self.jumpForce = 200
+  self.friction = 10
   self.gravity = 9.81
   --== Movement
   self.direction = 'right'
   self.moving    = false;
   self.grounded  = false;
+  self.timeJumped = 0
+  self.jumpDelay = 0.4
 
 
   world:add(self, self.x, self.y, self.width, self.height)
@@ -43,29 +46,45 @@ function Player:draw()
 end
 
 playerFilter = function(item, other)
-  if other.isPlatform then return 'touch' end
-  return 'touch'
+  if other.isPlatform then return 'slide' end
+  return 'slide'
 end
 
 
 function Player:move(dt)
   local goalX, goalY = self.x + self.xVel, self.y + self.yVel
-  local actualX, actualY, cols, len = world:move(player, goalX, goalY, playerFilter)
+  local actualX, actualY, cols, len = world:move(player, goalX, goalY)
 
 
   player.x, player.y = actualX, actualY
   world:update(self, self.x, self.y)
+  print(len)
 
-  if #cols > 0 then
-    print("logging" .. len)
-    print(cols.isPlatform)
+  for i=1, len do
+    local other = cols[i].other
+    local normal = cols[i].normal
+    if other.isPlatform then
+
+      print("normal: " .. normal.x .. normal.y)
+      --== Player is touching platform from the top
+      if normal.y == -1 then
+        player.grounded = true
+      end
+    end
+
   end
 
 
-  --== Apply Friction
+
+  --== Apply Friction / Gravity
   self.xVel = self.xVel * (1 - math.min(dt*self.friction, 1))
   self.yVel = self.yVel + self.gravity*dt
 
+  -- print(self.yVel)
+
+  if self.grounded then
+    self.yVel = self.gravity
+  end
 
 
   --== Stop Animation a short time before actual stop
@@ -80,6 +99,15 @@ end
 
 
 function Player:handleInput(dt)
+  if love.keyboard.isDown("space") or love.keyboard.isDown("w") then
+    local now = love.timer.getTime()
+    if now - self.timeJumped > self.jumpDelay then
+      print("Jump")
+      self.grounded = false
+      self.yVel =  -self.jumpForce*dt
+      self.timeJumped = now
+    end
+  end
   if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
     if self.direction ~= 'left' then
       self.direction = 'left'
