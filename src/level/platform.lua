@@ -17,15 +17,19 @@ function Platform:initialize(x,y, type)
     end
   end
 
+  self.alpha = love.math.random(0, 255)
+
 
 
 end
 
 function Platform:draw ()
-  -- love.graphics.setColor(255, 255, 255, 200)
-  -- love.graphics.rectangle("fill", self.x, self.x, 16, 16)
+
+  -- love.graphics.setColor(255, 255, 255, 255)
+  -- love.graphics.setColor(0, 0, 0, self.alpha)
   if self.type > 0 then
     love.graphics.draw(tileset, block, self.x, self.y)
   end
+  -- love.graphics.rectangle("fill", self.x, self.x, 16, 16)
 
 end

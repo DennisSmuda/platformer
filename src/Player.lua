@@ -6,13 +6,14 @@ function Player:initialize()
   self.width = 12
   self.height = 12
   self.x = 60
-  self.y = 86
+  self.y = 30
   self.xVel = 0
   self.yVel = 0
   self.speed = 20
-  self.jumpForce = 150
+  self.jumpForce = 3
   self.friction = 10
   self.gravity = 9.81
+  self.mass = 10
   --== Movement
   self.direction = 'right'
   self.moving    = false;
@@ -30,26 +31,54 @@ function Player:update(dt)
   self:handleInput(dt)
   self:move(dt)
 
-  walkingAnim:update(dt)
-  idleAnim:update(dt)
-  jumpAnim:update(dt)
+  walkingLeft:update(dt)
+  walkingRight:update(dt)
+  idleLeft:update(dt)
+  idleRight:update(dt)
+  jumpLeft:update(dt)
+  jumpRight:update(dt)
+  wallSlideLeft:update(dt)
+  wallSlideRight:update(dt)
 
 end
 
 
 function Player:draw()
+  -- love.graphics.setColor(255,255,255,255)
 
     if self.grounded ~= true then
 
       if self.isOnWall then
-        wallSlideAnim:draw(playerset, self.x, self.y)
+
+        if self.direction == 'right' then
+          wallSlideRight:draw(playerset, self.x, self.y)
+        else
+          wallSlideLeft:draw(playerset, self.x, self.y)
+        end
+
       else
-        jumpAnim:draw(playerset, self.x, self.y)
+        if self.direction == 'right' then
+          jumpRight:draw(playerset, self.x, self.y)
+        else
+          jumpLeft:draw(playerset, self.x, self.y)
+        end
       end
+
     elseif self.moving then
-      walkingAnim:draw(playerset, self.x, self.y)
+
+        if self.direction == 'right' then
+          walkingRight:draw(playerset, self.x, self.y)
+        else
+          walkingLeft:draw(playerset, self.x, self.y)
+        end
+
     else
-      idleAnim:draw(playerset, self.x, self.y)
+
+        if self.direction == 'right' then
+          idleRight:draw(playerset, self.x, self.y)
+        else
+          idleLeft:draw(playerset, self.x, self.y)
+        end
     end
 
 end
@@ -68,6 +97,10 @@ function Player:move(dt)
   self.x, self.y = actualX, actualY
   world:update(self, self.x, self.y)
 
+
+
+
+
   for i=1, len do
     local other = cols[i].other
     local normal = cols[i].normal
@@ -80,8 +113,12 @@ function Player:move(dt)
       end
 
       if normal.x == -1 then
+        -- Is On right wall
         self.isOnWall = true
+      end
 
+      if normal.x == 1 then
+        self.isOnWall = true
       end
     end
 
@@ -92,12 +129,13 @@ function Player:move(dt)
   --== Apply Friction / Gravity
   self.xVel = self.xVel * (1 - math.min(dt*self.friction, 1))
   self.yVel = self.yVel + self.gravity*dt
+  -- Limit gravity
+  if self.yVel > self.gravity then self.yVel = self.gravity end
 
   -- print(self.yVel)
 
   if self.grounded then
     self.isOnWall = false
-    self.yVel = 1
   end
 
 
@@ -108,7 +146,16 @@ function Player:move(dt)
     self.moving = true
   end
 
-  -- print("yVel: " .. self.yVel)
+  if len == 0 then
+    if self.grounded then
+      self.grounded = false
+      self.yVel = self.gravity/6
+      self.yVel = 1
+    end
+  end
+
+  print(self.yVel)
+
 
 end
 
@@ -121,9 +168,9 @@ function Player:handleInput(dt)
 
     if canJump and self.grounded == true then
       print("Jump")
+      self.yVel =  -self.jumpForce
+      -- self.yVel = -3
       self.grounded = false
-      -- self.yVel =  -self.jumpForce*dt
-      self.yVel = -200*dt
       self.timeJumped = now
     end
 
@@ -131,17 +178,24 @@ function Player:handleInput(dt)
       print("Wall Jump")
       self.timeJumped = now
       if self.direction == 'right' then
-        self.xVel = -200*dt
-        self.yVel = -200*dt
+        self.isOnWall = false
+        self.direction = 'left'
+        self.xVel = -self.jumpForce
+        self.yVel = -self.jumpForce
+      else
+        self.isOnWall = false
+        self.direction = 'left'
+        self.xVel = self.jumpForce
+        self.yVel = -self.jumpForce
       end
     end
   end
   if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
     if self.direction ~= 'left' then
       self.direction = 'left'
-      walkingAnim:flipH()
-      idleAnim:flipH()
-      jumpAnim:flipH()
+      -- walkingAnim:flipH()
+      -- idleAnim:flipH()
+      -- jumpAnim:flipH()
     end
     self.xVel = self.xVel - self.speed*dt
   end
@@ -150,9 +204,9 @@ function Player:handleInput(dt)
   if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
     if self.direction ~= 'right' then
       self.direction = 'right'
-      walkingAnim:flipH()
-      idleAnim:flipH()
-      jumpAnim:flipH()
+      -- walkingAnim:flipH()
+      -- idleAnim:flipH()
+      -- jumpAnim:flipH()
     end
     self.xVel = self.xVel + self.speed*dt
   end

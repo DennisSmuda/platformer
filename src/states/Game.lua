@@ -57,7 +57,7 @@ function Game.update (dt)
   player:update(dt)
 
    local dx,dy = player.x - camera.x, player.y - camera.y
-   camera:move(dx/2, dy/2)
+   camera:move(dx*0.09, dy*0.09)
 
 end
 
