@@ -15,12 +15,15 @@ function Player:initialize()
   self.gravity = 9.81
   self.mass = 10
   --== Movement
-  self.direction = 'right'
-  self.moving    = false;
-  self.grounded  = false;
-  self.timeJumped = 0
-  self.jumpDelay = 0.4
-  self.isOnWall  = false;
+  self.direction      = 'right'
+  self.moving         = false;
+  self.grounded       = false;
+  self.timeJumped     = 0
+  self.jumpDelay      = 0.4
+  self.isOnLeftWall   = false;
+  self.isOnRightWall  = false;
+  self.wallHitTime    = 0
+  self.wallJumpDelay  = 0.25
 
 
   world:add(self, self.x, self.y, self.width, self.height)
@@ -47,38 +50,32 @@ function Player:draw()
   -- love.graphics.setColor(255,255,255,255)
 
     if self.grounded ~= true then
-
-      if self.isOnWall then
-
-        if self.direction == 'right' then
-          wallSlideRight:draw(playerset, self.x, self.y)
-        else
-          wallSlideLeft:draw(playerset, self.x, self.y)
-        end
-
+      --== Player is either on a wall or midair
+      if self.isOnLeftWall then
+        wallSlideLeft:draw(playerset, self.x, self.y)
+      elseif self.isOnRightWall == true then
+        wallSlideRight:draw(playerset, self.x, self.y)
+      elseif self.direction == 'right' then
+        jumpRight:draw(playerset, self.x, self.y)
       else
-        if self.direction == 'right' then
-          jumpRight:draw(playerset, self.x, self.y)
-        else
-          jumpLeft:draw(playerset, self.x, self.y)
-        end
+        jumpLeft:draw(playerset, self.x, self.y)
       end
 
     elseif self.moving then
-
-        if self.direction == 'right' then
-          walkingRight:draw(playerset, self.x, self.y)
-        else
-          walkingLeft:draw(playerset, self.x, self.y)
-        end
+      --== Player is walkink
+      if self.direction == 'right' then
+        walkingRight:draw(playerset, self.x, self.y)
+      else
+        walkingLeft:draw(playerset, self.x, self.y)
+      end
 
     else
-
-        if self.direction == 'right' then
-          idleRight:draw(playerset, self.x, self.y)
-        else
-          idleLeft:draw(playerset, self.x, self.y)
-        end
+      --== Player is idle
+      if self.direction == 'right' then
+        idleRight:draw(playerset, self.x, self.y)
+      else
+        idleLeft:draw(playerset, self.x, self.y)
+      end
     end
 
 end
@@ -98,27 +95,36 @@ function Player:move(dt)
   world:update(self, self.x, self.y)
 
 
-
-
-
   for i=1, len do
     local other = cols[i].other
     local normal = cols[i].normal
     if other.isPlatform then
 
-      -- print("normal: " .. normal.x .. normal.y)
       --== Player is touching platform from the top
       if normal.y == -1 then
         player.grounded = true
       end
 
+
       if normal.x == -1 then
-        -- Is On right wall
-        self.isOnWall = true
+        self.isOnRightWall = true
+
+        if self.wallHitTime == nil then
+          self.wallHitTime = love.timer.getTime()
+        end
+      else
+        self.isOnRightWall = false
       end
 
+
       if normal.x == 1 then
-        self.isOnWall = true
+        self.isOnLeftWall = true
+
+        if self.wallHitTime == nil then
+          self.wallHitTime = love.timer.getTime()
+        end
+      else
+        self.isOnLeftWall = false
       end
     end
 
@@ -146,15 +152,19 @@ function Player:move(dt)
     self.moving = true
   end
 
+  --== No Collisions -> reset wall/grounded
   if len == 0 then
+    self.isOnWall = false
+    self.isOnLeftWall = false
+    self.isOnRightWall = false
+    self.wallHitTime = nil
+
     if self.grounded then
       self.grounded = false
-      self.yVel = self.gravity/6
-      self.yVel = 1
+      self.yVel = 0.25
     end
   end
-
-  print(self.yVel)
+  -- print(love.timer.getTime() .. tostring(self.isOnRightWall))
 
 
 end
@@ -174,40 +184,59 @@ function Player:handleInput(dt)
       self.timeJumped = now
     end
 
-    if canJump and self.isOnWall then
-      print("Wall Jump")
+    if canJump then
       self.timeJumped = now
-      if self.direction == 'right' then
-        self.isOnWall = false
+      if self.isOnRightWall == true then
+        self.isOnRightWall = false
         self.direction = 'left'
         self.xVel = -self.jumpForce
         self.yVel = -self.jumpForce
-      else
-        self.isOnWall = false
+      elseif self.isOnLeftWall == true then
+        self.isOnRightWall = false
         self.direction = 'left'
         self.xVel = self.jumpForce
         self.yVel = -self.jumpForce
       end
     end
+
   end
-  if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+
+  local now = love.timer.getTime()
+
+  if love.keyboard.isDown("a") then
+
     if self.direction ~= 'left' then
       self.direction = 'left'
-      -- walkingAnim:flipH()
-      -- idleAnim:flipH()
-      -- jumpAnim:flipH()
     end
     self.xVel = self.xVel - self.speed*dt
+
+    if self.isOnRightWall == true then
+      local canWallJump = now - self.wallHitTime > self.wallJumpDelay
+
+      if canWallJump == false then
+        self.direction = 'right'
+        self.xVel = self.xVel + self.speed*dt
+      end
+    end
+    -- self.xVel = self.xVel - self.speed*dt
+
   end
 
 
   if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
     if self.direction ~= 'right' then
       self.direction = 'right'
-      -- walkingAnim:flipH()
-      -- idleAnim:flipH()
-      -- jumpAnim:flipH()
     end
     self.xVel = self.xVel + self.speed*dt
+
+    if self.isOnLeftWall == true then
+      local canWallJump = now - self.wallHitTime > self.wallJumpDelay
+
+      if canWallJump == false then
+        self.direction = 'left'
+        self.xVel = self.xVel - self.speed*dt
+      end
+
+    end
   end
 end
