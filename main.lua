@@ -62,12 +62,13 @@ end
 
 
 function loadGraphics()
+  pistol_img = love.graphics.newImage("assets/img/pistol.png")
   cloud_img = love.graphics.newImage("assets/img/cloud.png")
   cloud_img:setFilter("nearest", "nearest")
   tileset = love.graphics.newImage("assets/img/tileset.png")
   tileset:setFilter("nearest", "nearest")
   platform_plain = love.graphics.newQuad(32, 0, 16, 16, tileset:getDimensions())
-  block = love.graphics.newQuad(0, 16, 16, 16, tileset:getDimensions())
+  block = love.graphics.newQuad(0, 0, 16, 16, tileset:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
   playerset:setFilter("nearest", "nearest")
