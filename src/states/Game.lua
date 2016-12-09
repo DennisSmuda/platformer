@@ -1,12 +1,7 @@
 require "src.config.Levels"
 require "src.ui.GameOverlay"
-require "src.ui.GameBackdrop"
 require "src.level.Level"
 require "src.player.Player"
-require "src.Block"
-require "src.Ball"
-require "src.Wall"
-require "src.Block"
 require "src.LevelManager"
 
 
