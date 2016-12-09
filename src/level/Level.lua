@@ -44,7 +44,7 @@ function Level:makeWorldobjects(mapData)
     --== because lua starts counting at "1" instead of "0"
     local x,y = i%mapWidth, math.floor(i/mapWidth)
     if x == 0 then
-      x = 10
+      x = mapWidth
       y = y - 1
     end
 

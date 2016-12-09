@@ -41,7 +41,8 @@ function Game.load (args)
   --== Camera
   screenW, screenH = love.graphics.getDimensions()
   camera = Camera()
-  camera:zoom(3)
+  -- camera:zoom(3)
+  camera:zoom(1)
 
   local dx, dy = screenW - camera.x, screenH - camera.y
   camera:lookAt(screenW/2, screenH/2)
