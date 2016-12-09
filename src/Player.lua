@@ -132,9 +132,26 @@ function Player:move(dt)
 
 
 
-  --== Apply Friction / Gravity
+  --== Apply Friction
   self.xVel = self.xVel * (1 - math.min(dt*self.friction, 1))
-  self.yVel = self.yVel + self.gravity*dt
+  --== Lower Gravity is applied when on Wall
+  --== If Player moves 'against the wall' while on it, he
+  --== can control the downslide
+  if self.isOnLeftWall == true then
+    if love.keyboard.isDown('a') then
+      self.yVel = self.yVel * (1 - math.min(dt*self.friction, 1))
+    else
+      self.yVel = self.yVel + self.gravity*dt/1.5
+    end
+  elseif self.isOnRightWall == true then
+    if love.keyboard.isDown('d') then
+      self.yVel = self.yVel * (1 - math.min(dt*self.friction, 1))
+    else
+      self.yVel = self.yVel + self.gravity*dt/1.5
+    end
+  else
+    self.yVel = self.yVel + self.gravity*dt
+  end
   -- Limit gravity
   if self.yVel > self.gravity then self.yVel = self.gravity end
 
@@ -161,7 +178,7 @@ function Player:move(dt)
 
     if self.grounded then
       self.grounded = false
-      self.yVel = 0.25
+      self.yVel = 0.125
     end
   end
   -- print(love.timer.getTime() .. tostring(self.isOnRightWall))
