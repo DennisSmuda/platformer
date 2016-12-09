@@ -6,7 +6,7 @@ function Player:initialize()
   self.width = 12
   self.height = 12
   self.x = gamestate.spawnLocation.x * 12
-  self.y = gamestate.spawnLocation.y * 12 
+  self.y = gamestate.spawnLocation.y * 12
   self.xVel = 0
   self.yVel = 0
   self.speed = 20
@@ -82,13 +82,14 @@ end
 
 playerFilter = function(item, other)
   if other.isPlatform then return 'slide' end
+  if other.isCollectible then return 'cross' end
   return 'slide'
 end
 
 
 function Player:move(dt)
   local goalX, goalY = self.x + self.xVel, self.y + self.yVel
-  local actualX, actualY, cols, len = world:move(player, goalX, goalY)
+  local actualX, actualY, cols, len = world:move(player, goalX, goalY,playerFilter)
 
 
   self.x, self.y = actualX, actualY
@@ -126,7 +127,10 @@ function Player:move(dt)
       else
         self.isOnLeftWall = false
       end
+    elseif other.isCollectible then
+      print(love.timer.getTime() .. " :: Butz")
     end
+
 
   end
 

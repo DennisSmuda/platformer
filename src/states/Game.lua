@@ -1,9 +1,8 @@
 require "src.config.Levels"
 require "src.ui.GameOverlay"
 require "src.ui.GameBackdrop"
-require "src.level.platform"
 require "src.level.Level"
-require "src.Player"
+require "src.player.Player"
 require "src.Block"
 require "src.Ball"
 require "src.Wall"
@@ -15,7 +14,7 @@ local Game = state:new()
 
 --== Globals
 gamestate = {
-  spawnLocation = { x = 2, y = 27}
+  spawnLocation = { x = 2, y = 2}
 }
 
 
@@ -36,7 +35,6 @@ function Game.load (args)
 
 
   player = Player()
-  platform = Platform(1,1)
   cloud = Cloud()
 
 
