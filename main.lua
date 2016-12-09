@@ -40,7 +40,9 @@ function love.load()
   love.window.setMode(1000, 600, {fullscreen=false, vsync=true, resizable=false})
 
   love.graphics.setBackgroundColor(95, 205, 228)
-  font = love.graphics.newFont("assets/fonts/slkscr.ttf", 40)
+  font = love.graphics.newFont("assets/fonts/slkscr.ttf", 8)
+  font:setFilter("nearest", "nearest")
+  -- print(font:getFilter())
   love.graphics.setFont(font)
 
   loadGraphics()

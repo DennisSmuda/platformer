@@ -97,15 +97,21 @@ function Level:setSpawnLocation(spawns)
 end
 
 
+function Level:resetMessages()
+  for i,collectible in ipairs(self.collectibles) do
+    collectible:toggleMessage(false)
+  end
+end
 
 
 function Level:update(dt)
   -- map:update(dt)
+  for i,collectible in ipairs(self.collectibles) do
+    collectible:update(dt)
+  end
 end
 
 function Level:draw()
-
-
 
 
 end

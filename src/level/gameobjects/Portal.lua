@@ -9,6 +9,5 @@ function Portal:initialize(x, y)
 end
 
 function Portal:draw()
-  print("Portal Draw")
   love.graphics.draw(tileset, self.image, self.x, self.y)
 end

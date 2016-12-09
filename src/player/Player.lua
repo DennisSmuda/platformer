@@ -94,6 +94,7 @@ function Player:move(dt)
 
   self.x, self.y = actualX, actualY
   world:update(self, self.x, self.y)
+  local isTouchingCollectible = false
 
 
   for i=1, len do
@@ -127,10 +128,17 @@ function Player:move(dt)
       else
         self.isOnLeftWall = false
       end
+    --== Collectibles (Guns, Stones..)
     elseif other.isCollectible then
-      print(love.timer.getTime() .. " :: Butz")
+      other:toggleMessage(true)
+      isTouchingCollectible = true
     end
 
+  end
+
+
+  if isTouchingCollectible == false then
+    level:resetMessages()
 
   end
 
@@ -198,7 +206,7 @@ function Player:handleInput(dt)
     local canJump = now - self.timeJumped > self.jumpDelay
 
     if canJump and self.grounded == true then
-      print("Jump")
+      -- print("Jump")
       self.yVel =  -self.jumpForce
       -- self.yVel = -3
       self.grounded = false
