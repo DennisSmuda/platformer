@@ -25,9 +25,6 @@ function Tile:initialize(x,y, type)
 
 
 
-
-
-
 end
 
 function Tile:draw ()

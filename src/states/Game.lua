@@ -41,8 +41,7 @@ function Game.load (args)
   --== Camera
   screenW, screenH = love.graphics.getDimensions()
   camera = Camera()
-  -- camera:zoom(3)
-  camera:zoom(1)
+  camera:zoom(3)
 
   local dx, dy = screenW - camera.x, screenH - camera.y
   camera:lookAt(screenW/2, screenH/2)
@@ -78,9 +77,12 @@ function Game.draw()
 
       cloud:draw()
 
+      level:drawStatics()
+      level:drawTiles()
+
       player:draw()
       -- platform:draw()
-      level:draw()
+      level:drawCollectibles()
 
     camera:detach()
 

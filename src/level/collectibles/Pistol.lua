@@ -2,7 +2,6 @@
 Pistol = class('Pistol')
 
 function Pistol:initialize (x,y)
-  print(x, y)
   self.x = x*16
   self.y = y*16
   self.xOff = 6

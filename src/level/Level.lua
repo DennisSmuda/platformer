@@ -1,12 +1,15 @@
-require "src.level.gameobjects.Cloud"
 require "src.level.TileFactory"
 require "src.level.CollectibleFactory"
+require "src.level.gameobjects.Cloud"
+require "src.level.gameobjects.Portal"
+
 
 Level = class('Level')
 
 function Level:initialize()
   self.worldObjects = {}
   self.collectibles = {}
+  self.portal       = {}
 
   self.tileFactory        = TileFactory()
   self.collectibleFactory = CollectibleFactory()
@@ -33,6 +36,9 @@ function Level:initialize()
 
   self:makeWorldobjects(mapData)
   self:makeCollectibles(collectibles)
+
+  self:setSpawnLocation(spawns)
+
 
 
 end
@@ -64,7 +70,28 @@ function Level:makeCollectibles(collectibles)
 
     if collectibleType > 0 then
       local collectible = self.collectibleFactory.makeCollectible(x,y,collectibleType)
-      table.insert(self.worldObjects, collectible)
+      table.insert(self.collectibles, collectible)
+    end
+  end
+end
+
+function Level:setSpawnLocation(spawns)
+  for i,spawn in ipairs(spawns) do
+    local x,y = i%mapWidth, math.floor(i/mapWidth)
+    if x == 0 then
+      x = mapWidth
+      y = y - 1
+    end
+
+    if spawn == 5 then
+
+      gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
+
+      self.portal = Portal(x, y)
+
+
+
+
     end
   end
 end
@@ -77,9 +104,24 @@ function Level:update(dt)
 end
 
 function Level:draw()
-  -- map:draw()
+
+
+
+
+end
+
+function Level:drawStatics()
+  self.portal:draw()
+end
+
+function Level:drawCollectibles()
+  for i,collectible in ipairs(self.collectibles) do
+    collectible:draw()
+  end
+end
+
+function Level:drawTiles()
   for i,tile in ipairs(self.worldObjects) do
     tile:draw()
   end
-
 end

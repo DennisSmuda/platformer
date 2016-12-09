@@ -67,16 +67,20 @@ function loadGraphics()
   cloud_img = love.graphics.newImage("assets/img/cloud.png")
   cloud_img:setFilter("nearest", "nearest")
 
+  --== Tileset ===
   tileset = love.graphics.newImage("assets/img/tileset.png")
   tileset:setFilter("nearest", "nearest")
-  platform_plain = love.graphics.newQuad(32, 0, 16, 16, tileset:getDimensions())
-  blockQuad = love.graphics.newQuad(0, 0, 16, 16, tileset:getDimensions())
-  grassQuad = love.graphics.newQuad(16, 0, 16, 16, tileset:getDimensions())
+
+  platformQuad  = love.graphics.newQuad(32, 0, 16, 16, tileset:getDimensions())
+  blockQuad     = love.graphics.newQuad(0, 0, 16, 16, tileset:getDimensions())
+  grassQuad     = love.graphics.newQuad(16, 0, 16, 16, tileset:getDimensions())
+  portalQuad    = love.graphics.newQuad(0, 16, 16, 16, tileset:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
   playerset:setFilter("nearest", "nearest")
   playerG = anim8.newGrid(12,12, playerset:getDimensions())
-  -- == Player Animations
+
+  --== Player Animations
   walkingRight = anim8.newAnimation(playerG('1-2', 1), 0.15)
   walkingLeft  = anim8.newAnimation(playerG('3-4', 1), 0.15)
   wallSlideRight = anim8.newAnimation(playerG('5-6', 1), 0.2)
