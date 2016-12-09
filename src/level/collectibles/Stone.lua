@@ -1,17 +1,9 @@
+require('src.level.collectibles.Collectible')
 
-Stone = class('Stone')
+Stone = class('Stone', Collectible)
 
 function Stone:initialize(x, y)
-  self.x = x*16
-  self.y = y*16
-  self.xOff = 6
-  self.yOff = 12
-  self.width = 4
-  self.height = 4
-  self.showMessage = false
-
-  world:add(self, self.x+self.xOff, self.y+self.yOff, self.width, self.height)
-  self.isCollectible = true
+  Collectible.initialize(self, x, y, 'Stone')
 end
 
 function Stone:update(dt)
@@ -20,6 +12,11 @@ end
 
 function Stone:draw()
   love.graphics.draw(stone_img, self.x+self.xOff, self.y+self.yOff)
+
+  --== Show Pickup Message
+  if self.showMessage == true and self.owner == nil then
+    love.graphics.printf("[E] to pick up", player.x-30, player.y - 16, 70, "center")
+  end
 end
 
 

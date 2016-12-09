@@ -6,7 +6,7 @@ function Tile:initialize(x,y, type)
   self.x = x*16
   self.y = y*16
   self.width = 16
-  self.height = 15
+  self.height = 12
   self.type = type
 
   --== Check validity and set variables accordingly
