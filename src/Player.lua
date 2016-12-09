@@ -5,8 +5,8 @@ function Player:initialize()
   self.type = 'player'
   self.width = 12
   self.height = 12
-  self.x = 60
-  self.y = 30
+  self.x = gamestate.spawnLocation.x * 12
+  self.y = gamestate.spawnLocation.y * 12 
   self.xVel = 0
   self.yVel = 0
   self.speed = 20

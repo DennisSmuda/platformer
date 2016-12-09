@@ -14,6 +14,9 @@ require "src.LevelManager"
 local Game = state:new()
 
 --== Globals
+gamestate = {
+  spawnLocation = { x = 2, y = 27}
+}
 
 
 function Game.load (args)
