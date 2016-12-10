@@ -1,12 +1,13 @@
-require('src.world.collectibles.Collectible')
+require 'src.world.collectibles.Collectible'
+require 'src.world.gameobjects.Bullet'
 
 Pistol = class('Pistol', Collectible)
 
 function Pistol:initialize (x,y)
   Collectible.initialize(self, x, y, 'Pistol')
 
-  self.lastShot   = 0
-  self.shotDelay  = 300
+  self.lastShot   = love.timer.getTime()
+  self.shotDelay  = 1
 
   self.bullets    = {}
 
@@ -21,6 +22,10 @@ function Pistol:update(dt)
   if self.owner then
     self:handleInput(dt)
   end
+  --== Update Bullets
+  for i,bullet in ipairs(self.bullets) do
+    bullet:update(dt)
+  end
 end
 
 function Pistol:draw()
@@ -29,6 +34,11 @@ function Pistol:draw()
     love.graphics.draw(pistol_img, self.x+self.xOff, self.y+self.yOff)
   else
     self:drawOnOwner()
+  end
+
+  --== Draw Bullets
+  for i,bullet in ipairs(self.bullets) do
+    bullet:draw()
   end
 
 
@@ -48,12 +58,19 @@ end
 
 
 function Pistol:handleInput(dt)
+  local now = love.timer.getTime()
+  local canShoot = now - self.lastShot > self.shotDelay
 
-  if love.keyboard.isDown("right") then
+  if love.keyboard.isDown("right") and canShoot then
     self:shoot('right')
+    self.lastShot = now
   end
 end
 
 function Pistol:shoot(dir)
-  print("Shoot : " .. dir)
+  screen:setShake(3)
+
+  -- print("Shoot : " .. dir)
+  local bullet = Bullet(self.owner.x, self.owner.y, dir)
+  table.insert(self.bullets, bullet)
 end

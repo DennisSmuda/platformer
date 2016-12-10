@@ -39,8 +39,6 @@ function Level:initialize()
 
   self:setSpawnLocation(spawns)
 
-
-
 end
 
 --== Static World Objects (Ground, Wall, Platforms, etc..)
@@ -61,6 +59,7 @@ end
 
 
 function Level:makeCollectibles(collectibles)
+
   for i, collectibleType in ipairs(collectibles) do
     local x,y = i%mapWidth, math.floor(i/mapWidth)
     if x == 0 then
@@ -73,6 +72,7 @@ function Level:makeCollectibles(collectibles)
       table.insert(self.collectibles, collectible)
     end
   end
+
 end
 
 function Level:setSpawnLocation(spawns)
@@ -88,9 +88,6 @@ function Level:setSpawnLocation(spawns)
       gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
 
       self.portal = Portal(x, y)
-
-
-
 
     end
   end
@@ -112,7 +109,6 @@ function Level:update(dt)
 end
 
 function Level:draw()
-
 
 end
 

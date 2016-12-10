@@ -89,7 +89,7 @@ end
 
 function Player:move(dt)
   local goalX, goalY = self.x + self.xVel, self.y + self.yVel
-  local actualX, actualY, cols, len = world:move(player, goalX, goalY,playerFilter)
+  local actualX, actualY, cols, len = world:move(self, goalX, goalY,playerFilter)
 
 
   self.x, self.y = actualX, actualY
