@@ -1,7 +1,7 @@
-require "src.level.TileFactory"
-require "src.level.CollectibleFactory"
-require "src.level.gameobjects.Cloud"
-require "src.level.gameobjects.Portal"
+require "src.world.TileFactory"
+require "src.world.CollectibleFactory"
+require "src.world.gameobjects.Cloud"
+require "src.world.gameobjects.Portal"
 
 
 Level = class('Level')

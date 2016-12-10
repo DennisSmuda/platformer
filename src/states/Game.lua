@@ -1,6 +1,6 @@
 require "src.config.Levels"
 require "src.ui.GameOverlay"
-require "src.level.Level"
+require "src.world.Level"
 require "src.player.Player"
 require "src.LevelManager"
 

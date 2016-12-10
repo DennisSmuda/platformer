@@ -1,17 +1,25 @@
-require('src.level.collectibles.Collectible')
+require('src.world.collectibles.Collectible')
 
 Pistol = class('Pistol', Collectible)
 
 function Pistol:initialize (x,y)
   Collectible.initialize(self, x, y, 'Pistol')
 
+  self.lastShot   = 0
+  self.shotDelay  = 300
+
+  self.bullets    = {}
+
 end
 
 
 function Pistol:update(dt)
   if self.showMessage then
-    -- self:handleInput(dt)
     Collectible:handleInput(dt)
+  end
+
+  if self.owner then
+    self:handleInput(dt)
   end
 end
 
@@ -40,8 +48,12 @@ end
 
 
 function Pistol:handleInput(dt)
-  if love.keyboard.isDown("e") and self.owner == nil then
-    print("Fuck yea")
-    self.owner = player
+
+  if love.keyboard.isDown("right") then
+    self:shoot('right')
   end
+end
+
+function Pistol:shoot(dir)
+  print("Shoot : " .. dir)
 end

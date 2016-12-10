@@ -1,4 +1,4 @@
-require "src.level.gameobjects.Tile"
+require "src.world.gameobjects.Tile"
 
 TileFactory = class('TileFactory')
 

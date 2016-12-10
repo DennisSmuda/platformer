@@ -17,7 +17,6 @@ function Collectible:initialize(x, y, type)
   world:add(self, self.x+self.xOff, self.y+self.yOff, self.width, self.height)
   self.isCollectible = true
 
-  print(collectibles[type].xOff)
 end
 
 function Collectible:update(dt)
@@ -36,7 +35,10 @@ end
 
 function Collectible:handleInput(dt)
   if love.keyboard.isDown("e") and self.owner == nil then
-    print("Fuck yea")
     self.owner = player
+  end
+
+  if love.keyboard.isDown("q") and self.owner then
+    self.owner = nil
   end
 end

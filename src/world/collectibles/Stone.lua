@@ -1,4 +1,4 @@
-require('src.level.collectibles.Collectible')
+require('src.world.collectibles.Collectible')
 
 Stone = class('Stone', Collectible)
 

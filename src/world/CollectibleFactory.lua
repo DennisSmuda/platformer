@@ -1,5 +1,5 @@
-require "src.level.collectibles.Pistol"
-require "src.level.collectibles.Stone"
+require "src.world.collectibles.Pistol"
+require "src.world.collectibles.Stone"
 
 CollectibleFactory = class('CollectibleFactory')
 

@@ -201,7 +201,7 @@ end
 
 
 function Player:handleInput(dt)
-  if love.keyboard.isDown("space") or love.keyboard.isDown("w") then
+  if love.keyboard.isDown("space") then
     local now = love.timer.getTime()
     local canJump = now - self.timeJumped > self.jumpDelay
 
@@ -252,7 +252,7 @@ function Player:handleInput(dt)
   end
 
 
-  if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+  if love.keyboard.isDown("d") then
     if self.direction ~= 'right' then
       self.direction = 'right'
     end
