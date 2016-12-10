@@ -5,8 +5,9 @@ Pistol = class('Pistol', Collectible)
 
 function Pistol:initialize (x,y)
   Collectible.initialize(self, x, y, 'Pistol')
+love.keyboard.setKeyRepeat(false)
 
-  self.lastShot   = love.timer.getTime()
+  self.lastShot   = 0
   self.shotDelay  = 1
 
   self.bullets    = {}
@@ -56,14 +57,21 @@ function Pistol:drawOnOwner()
 end
 
 
-
 function Pistol:handleInput(dt)
   local now = love.timer.getTime()
   local canShoot = now - self.lastShot > self.shotDelay
 
   if love.keyboard.isDown("right") and canShoot then
-    self:shoot('right')
-    self.lastShot = now
+    self.lastShot = love.timer.getTime()
+
+    if canShoot then print(now - self.lastShot) end
+
+    if canShoot == true then
+      -- self:shoot('right')
+      local bullet = Bullet(self.owner.x, self.owner.y, 'right')
+      table.insert(self.bullets, bullet)
+    end
+
   end
 end
 

@@ -268,4 +268,13 @@ function Player:handleInput(dt)
 
     end
   end
+
+
+  if love.keyboard.isDown("left") then
+    self.direction = 'left'
+  end
+
+  if love.keyboard.isDown("right") then
+    self.direction = 'right'
+  end
 end

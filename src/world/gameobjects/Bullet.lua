@@ -11,6 +11,7 @@ function Bullet:initialize(x, y, dir)
   self.image  = bullet_img
   self.width  = 2
   self.height = 2
+  self.speed  = 0
 
   if self.dir == 'right' then
     -- self.speed  = 80
@@ -21,15 +22,17 @@ function Bullet:initialize(x, y, dir)
     self.speed  = -80
   end
 
-  world:add(self, self.x+self.xOff, self.y, self.width, self.height)
+  world:add(self, self.x+self.xOff, self.y+self.yOff, self.width, self.height)
+  print("Bullet Constructor")
 end
 
 function Bullet:update(dt)
 
   local goalX = self.x + self.speed*dt
-  local actualX, actualY, cols, len = world:move(self, goalX, self.y)
+  local actualX, actualY, cols, len = world:move(self, goalX, self.y+self.yOff)
 
   self.x = actualX
+
 
 
 end
