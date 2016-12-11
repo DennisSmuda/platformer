@@ -2,6 +2,7 @@ require "src.world.TileFactory"
 require "src.world.CollectibleFactory"
 require "src.world.gameobjects.Cloud"
 require "src.world.gameobjects.Portal"
+require "src.world.gameobjects.Ladder"
 
 
 Level = class('Level')
@@ -9,7 +10,7 @@ Level = class('Level')
 function Level:initialize()
   self.worldObjects = {}
   self.collectibles = {}
-  self.portal       = {}
+  self.statics = {}
 
   self.tileFactory        = TileFactory()
   self.collectibleFactory = CollectibleFactory()
@@ -20,8 +21,8 @@ function Level:initialize()
   for i,layer in ipairs(tilelayers) do
     if layer.name == 'map' then
       mapLayer = layer
-    elseif layer.name == 'spawns' then
-      spawnLayer = layer
+    elseif layer.name == 'staticgameobjects' then
+      staticgameobjects = layer
     elseif layer.name == 'collectibles' then
       collectibleLayer = layer
     end
@@ -31,13 +32,13 @@ function Level:initialize()
   --== Map stored as 1-D Array of ID's
   mapData = mapLayer.data
   mapWidth = mapLayer.width
-  spawns = spawnLayer.data
+  statics = staticgameobjects.data
   collectibles = collectibleLayer.data
 
   self:makeWorldobjects(mapData)
   self:makeCollectibles(collectibles)
-
-  self:setSpawnLocation(spawns)
+  --== Portals, Ladders, etc..
+  self:setStatics(statics)
 
 end
 
@@ -75,20 +76,22 @@ function Level:makeCollectibles(collectibles)
 
 end
 
-function Level:setSpawnLocation(spawns)
-  for i,spawn in ipairs(spawns) do
+function Level:setStatics(statics)
+  for i,object in ipairs(statics) do
     local x,y = i%mapWidth, math.floor(i/mapWidth)
     if x == 0 then
       x = mapWidth
       y = y - 1
     end
 
-    if spawn == 5 then
-
+    if object == 5 then
+      --== Portal -> Set start Location
       gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
-
-      self.portal = Portal(x, y)
-
+      local static = Portal(x,y)
+      table.insert(self.statics, static)
+    elseif object == 6 then
+      local static = Ladder(x,y)
+      table.insert(self.statics, static)
     end
   end
 end
@@ -113,7 +116,10 @@ function Level:draw()
 end
 
 function Level:drawStatics()
-  self.portal:draw()
+  for i,object in ipairs(self.statics) do
+    object:draw()
+    -- print(i , object)
+  end
 end
 
 function Level:drawCollectibles()

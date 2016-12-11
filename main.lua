@@ -78,6 +78,7 @@ function loadGraphics()
   blockQuad     = love.graphics.newQuad(0, 0, 16, 16, tileset:getDimensions())
   grassQuad     = love.graphics.newQuad(16, 0, 16, 16, tileset:getDimensions())
   portalQuad    = love.graphics.newQuad(0, 16, 16, 16, tileset:getDimensions())
+  ladderQuad    = love.graphics.newQuad(16, 16, 16, 16, tileset:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
   playerset:setFilter("nearest", "nearest")
