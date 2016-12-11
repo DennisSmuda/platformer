@@ -15,7 +15,7 @@ function Bullet:initialize(x, y, dir)
 
   if self.dir == 'right' then
     -- self.speed  = 80
-    self.speed  = 20
+    self.speed  = 40
     self.xOff = 14
   elseif self.dir == 'left' then
     self.xOff = 0
@@ -32,6 +32,7 @@ function Bullet:update(dt)
   local actualX, actualY, cols, len = world:move(self, goalX, self.y+self.yOff)
 
   self.x = actualX
+
 
 
 

@@ -253,9 +253,9 @@ function Player:handleInput(dt)
 
 
   if love.keyboard.isDown("d") then
-    if self.direction ~= 'right' then
+    -- if self.direction ~= 'right' then
       self.direction = 'right'
-    end
+    -- end
     self.xVel = self.xVel + self.speed*dt
 
     if self.isOnLeftWall == true then

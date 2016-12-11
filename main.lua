@@ -64,8 +64,10 @@ end
 
 
 function loadGraphics()
+  love.graphics.setDefaultFilter("nearest", "nearest")
   pistol_img = love.graphics.newImage("assets/img/pistol.png")
   bullet_img = love.graphics.newImage("assets/img/bullet.png")
+  portal_img = love.graphics.newImage("assets/img/portal.png")
   stone_img = love.graphics.newImage("assets/img/stone.png")
   cloud_img = love.graphics.newImage("assets/img/cloud.png")
   cloud_img:setFilter("nearest", "nearest")

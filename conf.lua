@@ -1,3 +1,5 @@
 function love.conf(t)
-  t.title = "BreakOut"
+  t.window.title = "Platformer"         -- The window title (string)
+  t.window.icon = nil
+  t.window.msaa = 8
 end

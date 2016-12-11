@@ -2,12 +2,12 @@
 Portal = class('Portal')
 
 function Portal:initialize(x, y)
-  self.x = x*16
-  self.y = y*16
-  self.image = portalQuad
+  self.x = x*16-8
+  self.y = y*16-8
+  self.image = portal_img
 
 end
 
 function Portal:draw()
-  love.graphics.draw(tileset, self.image, self.x, self.y)
+  love.graphics.draw(self.image, self.x, self.y)
 end

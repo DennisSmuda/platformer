@@ -10,6 +10,7 @@ love.keyboard.setKeyRepeat(false)
   self.lastShot   = 0
   self.shotDelay  = 1
 
+
   self.bullets    = {}
 
 end
@@ -58,18 +59,17 @@ end
 
 
 function Pistol:handleInput(dt)
-  local now = love.timer.getTime()
-  local canShoot = now - self.lastShot > self.shotDelay
 
-  if love.keyboard.isDown("right") and canShoot then
-    self.lastShot = love.timer.getTime()
+  if love.keyboard.isScancodeDown('right') then
+    local now = love.timer.getTime()
+    local canShoot = now - self.lastShot > self.shotDelay
 
-    if canShoot then print(now - self.lastShot) end
-
-    if canShoot == true then
-      -- self:shoot('right')
+    if  canShoot then
+    -- self:shoot('right')
       local bullet = Bullet(self.owner.x, self.owner.y, 'right')
       table.insert(self.bullets, bullet)
+
+      self.lastShot = love.timer.getTime()
     end
 
   end
