@@ -8,11 +8,12 @@ function Tile:initialize(x,y, type)
   self.width = 16
   self.height = 12
   self.type = type
+  self.padding = 1 -- tileset padding to prevent 'bleeding'
 
   --== Check validity and set variables accordingly
   if self.type then
     if self.type > 0 then
-      world:add(self, self.x, self.y, self.width, self.height)
+      world:add(self, self.x+1, self.y+1, self.width, self.height)
       self.isPlatform = true
     end
 
