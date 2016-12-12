@@ -28,7 +28,6 @@ function Level:initialize()
     end
   end
 
-
   --== Map stored as 1-D Array of ID's
   mapData = mapLayer.data
   mapWidth = mapLayer.width

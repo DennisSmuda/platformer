@@ -6,7 +6,7 @@ function Tile:initialize(x,y, type)
   self.x = x*16
   self.y = y*16
   self.width = 16
-  self.height = 12
+  self.height = 16
   self.type = type
   self.padding = 1 -- tileset padding to prevent 'bleeding'
 

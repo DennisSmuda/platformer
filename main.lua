@@ -70,11 +70,9 @@ function loadGraphics()
   portal_img = love.graphics.newImage("assets/img/portal.png")
   stone_img = love.graphics.newImage("assets/img/stone.png")
   cloud_img = love.graphics.newImage("assets/img/cloud.png")
-  cloud_img:setFilter("nearest", "nearest")
 
   --== Tileset ===
   tileset = love.graphics.newImage("assets/img/tileset.png")
-  tileset:setFilter("nearest", "nearest")
 
   platformQuad  = love.graphics.newQuad(36, 0, 18, 18, tileset:getDimensions())
   blockQuad     = love.graphics.newQuad(0, 0, 18, 18, tileset:getDimensions())
@@ -83,8 +81,10 @@ function loadGraphics()
   ladderQuad    = love.graphics.newQuad(18, 18, 18, 18, tileset:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
-  playerset:setFilter("nearest", "nearest")
   playerG = anim8.newGrid(12,12, playerset:getDimensions())
+
+  explosionset = love.graphics.newImage("assets/img/explosion.png")
+
 
   --== Player Animations
   walkingRight = anim8.newAnimation(playerG('1-2', 1), 0.15)
@@ -95,6 +95,6 @@ function loadGraphics()
   idleLeft = anim8.newAnimation(playerG('3-4', 2), 0.3)
   jumpRight = anim8.newAnimation(playerG('1-2', 3), 0.2)
   jumpLeft = anim8.newAnimation(playerG('3-4', 3), 0.2)
-  -- walkingLeft = anim8.newAnimation(playerG('4-6', 1), 0.15)
+  --== Explosion
 
 end

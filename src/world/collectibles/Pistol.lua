@@ -10,9 +10,7 @@ function Pistol:initialize (x,y)
   self.shotDelay  = 1
   self.canShoot   = false
 
-
   self.bullets    = {}
-
 end
 
 
@@ -28,6 +26,11 @@ function Pistol:update(dt)
   --== Update Bullets
   for i,bullet in ipairs(self.bullets) do
     bullet:update(dt)
+
+    if bullet.dead == true then
+      world:remove(bullet)
+      table.remove(self.bullets, i)
+    end
   end
 end
 
