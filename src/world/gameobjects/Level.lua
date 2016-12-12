@@ -74,6 +74,9 @@ function Level:makeCollectibles(collectibles)
     end
   end
 
+  -- local col = Pistol(6, 18)
+  -- table.insert(self.collectibles, col)
+
 end
 
 function Level:setStatics(statics)

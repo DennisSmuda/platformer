@@ -5,10 +5,10 @@ Pistol = class('Pistol', Collectible)
 
 function Pistol:initialize (x,y)
   Collectible.initialize(self, x, y, 'Pistol')
-love.keyboard.setKeyRepeat(false)
 
   self.lastShot   = 0
   self.shotDelay  = 1
+  self.canShoot   = false
 
 
   self.bullets    = {}
@@ -18,12 +18,13 @@ end
 
 function Pistol:update(dt)
   if self.showMessage then
-    Collectible:handleInput(dt)
+    self:handleInputWhileOnGround(dt)
   end
 
   if self.owner then
     self:handleInput(dt)
   end
+
   --== Update Bullets
   for i,bullet in ipairs(self.bullets) do
     bullet:update(dt)
@@ -59,20 +60,25 @@ end
 
 
 function Pistol:handleInput(dt)
+  local now = love.timer.getTime()
+  -- print("Handle Input: " .. self.lastShot .. tostring(self.canShoot) )
+  self.canShoot = now - self.lastShot > self.shotDelay
 
-  if love.keyboard.isScancodeDown('right') then
-    local now = love.timer.getTime()
-    local canShoot = now - self.lastShot > self.shotDelay
+  if love.keyboard.isDown('right') and self.canShoot == true then
+    self.canShoot = false
+    self.lastShot = love.timer.getTime()
+    -- print("Shoot Bullet: " .. self.lastShot .. tostring(self.canShoot) )
 
-    if  canShoot then
-    -- self:shoot('right')
-      local bullet = Bullet(self.owner.x, self.owner.y, 'right')
-      table.insert(self.bullets, bullet)
-
-      self.lastShot = love.timer.getTime()
-    end
-
+    local bullet = Bullet(self.owner.x, self.owner.y, 'right')
+    table.insert(self.bullets, bullet)
   end
+end
+
+function Pistol:handleInputWhileOnGround(dt)
+  if love.keyboard.isDown("e") then
+    self.owner = player
+  end
+
 end
 
 function Pistol:shoot(dir)

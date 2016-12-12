@@ -9,6 +9,7 @@ function CollectibleFactory:initialize()
 end
 
 function CollectibleFactory.makeCollectible(x, y, type)
+  local collectible
 
   if type == 8 then
     collectible = Stone(x,y)

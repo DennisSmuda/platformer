@@ -20,9 +20,6 @@ function Collectible:initialize(x, y, type)
 end
 
 function Collectible:update(dt)
-  if self.showMessage then
-    self:handleInput(dt)
-  end
 end
 
 function Collectible:draw()
@@ -31,14 +28,4 @@ end
 
 function Collectible:toggleMessage(value)
   self.showMessage = value
-end
-
-function Collectible:handleInput(dt)
-  if love.keyboard.isDown("e") and self.owner == nil then
-    self.owner = player
-  end
-
-  if love.keyboard.isDown("q") and self.owner then
-    self.owner = nil
-  end
 end
