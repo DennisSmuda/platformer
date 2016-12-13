@@ -1,3 +1,4 @@
+require "src.world.player.Inventory"
 
 Player = class('Player')
 
@@ -24,6 +25,9 @@ function Player:initialize()
   self.isOnRightWall  = false;
   self.wallHitTime    = 0
   self.wallJumpDelay  = 0.25
+
+  --== Gameplay
+  self.inventory = Inventory()
 
 
   world:add(self, self.x, self.y, self.width, self.height)
@@ -167,21 +171,20 @@ function Player:move(dt)
   -- Limit gravity
   if self.yVel > self.gravity then self.yVel = self.gravity end
 
-  -- print(self.yVel)
 
   if self.grounded then
     self.isOnWall = false
   end
 
-
-  --== Stop Animation a short time before actual stop
+  --== Stop Running animation a short time before
+  --== the character actually stops moving
   if self.xVel < 0.4 and self.xVel > -0.4 then
     self.moving = false
   else
     self.moving = true
   end
 
-  --== No Collisions -> reset wall/grounded
+  --== No Collisions -> reset wall/grounded variables
   if len == 0 then
     self.isOnWall = false
     self.isOnLeftWall = false
@@ -193,16 +196,13 @@ function Player:move(dt)
       self.yVel = 0.125
     end
   end
-  -- print(love.timer.getTime() .. tostring(self.isOnRightWall))
-
 
 end
 
 
-
 function Player:handleInput(dt)
+  local now = love.timer.getTime()
   if love.keyboard.isDown("space") then
-    local now = love.timer.getTime()
     local canJump = now - self.timeJumped > self.jumpDelay
 
     if canJump and self.grounded == true then
@@ -230,7 +230,7 @@ function Player:handleInput(dt)
 
   end
 
-  local now = love.timer.getTime()
+  -- local now = love.timer.getTime()
 
   if love.keyboard.isDown("a") then
 
@@ -278,3 +278,6 @@ function Player:handleInput(dt)
     self.direction = 'right'
   end
 end
+
+
+-- function Player:activeItem

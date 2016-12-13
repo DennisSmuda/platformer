@@ -65,11 +65,12 @@ end
 
 function loadGraphics()
   love.graphics.setDefaultFilter("nearest", "nearest")
-  pistol_img = love.graphics.newImage("assets/img/pistol.png")
-  bullet_img = love.graphics.newImage("assets/img/bullet.png")
-  portal_img = love.graphics.newImage("assets/img/portal.png")
-  stone_img = love.graphics.newImage("assets/img/stone.png")
-  cloud_img = love.graphics.newImage("assets/img/cloud.png")
+  blaster_right = love.graphics.newImage("assets/img/blaster_right.png")
+  blaster_left  = love.graphics.newImage("assets/img/blaster_left.png")
+  bullet_img    = love.graphics.newImage("assets/img/bullet.png")
+  portal_img    = love.graphics.newImage("assets/img/portal.png")
+  stone_img     = love.graphics.newImage("assets/img/stone.png")
+  cloud_img     = love.graphics.newImage("assets/img/cloud.png")
 
   --== Tileset ===
   tileset = love.graphics.newImage("assets/img/tileset.png")
@@ -84,6 +85,11 @@ function loadGraphics()
   playerG = anim8.newGrid(12,12, playerset:getDimensions())
 
   explosionset = love.graphics.newImage("assets/img/explosion.png")
+  block_damage_set = love.graphics.newImage("assets/img/block_break_frames.png")
+  block_damage_1   = love.graphics.newQuad(0,0,16,16, block_damage_set:getDimensions())
+  block_damage_2   = love.graphics.newQuad(16,0,16,16, block_damage_set:getDimensions())
+  block_damage_3   = love.graphics.newQuad(32,0,16,16, block_damage_set:getDimensions())
+  block_damage_4   = love.graphics.newQuad(48,0,16,16, block_damage_set:getDimensions())
 
 
   --== Player Animations

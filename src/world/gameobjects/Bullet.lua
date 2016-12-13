@@ -3,20 +3,22 @@ Bullet = class('Bullet')
 
 
 function Bullet:initialize(x, y, dir)
-  self.id     = love.math.random(1, 122)
   self.x      = x
   self.y      = y
   self.xOff   = 0
   self.yOff   = 5
   self.dir    = dir
   self.image  = bullet_img
-  self.width  = 2
-  self.height = 2
+  self.width  = 4
+  self.height = 4
   self.speed  = 0
+  self.active = true
 
-  self.explosionG = anim8.newGrid(8,8, explosionset:getDimensions())
-  self.explosion_anim = anim8.newAnimation(self.explosionG('1-4', 1), 0.05, function(anim, numLoops)
+  self.explosionG = anim8.newGrid(12,12, explosionset:getDimensions())
+  self.explosion_anim = anim8.newAnimation(self.explosionG('1-4', 1), 0.1, function(anim, numLoops)
     self.dead = true
+    print("FUCK")
+    -- screen:setShake(0)
   end)
 
   self.exploding = false
@@ -26,21 +28,29 @@ function Bullet:initialize(x, y, dir)
     self.speed  = 80
     self.xOff = 14
   elseif self.dir == 'left' then
-    self.xOff = 0
+    self.xOff = -10
     self.speed  = -80
   end
 
   world:add(self, self.x+self.xOff, self.y+self.yOff, self.width, self.height)
 end
 
+function BulletFilter(other, b)
+  if other.isPlatform then return 'touch'
+  elseif other.isPlayer then return nil
+  else return 'touch'
+  end
+end
+
 function Bullet:update(dt)
   if self.exploding then
     self.explosion_anim:update(dt)
+    return
   end
 
 
   local goalX = self.x + self.speed*dt
-  local actualX, actualY, cols, len = world:move(self, goalX, self.y+self.yOff)
+  local actualX, actualY, cols, len = world:move(self, goalX, self.y+self.yOff, BulletFilter)
 
   self.x = actualX
 
@@ -50,6 +60,9 @@ function Bullet:update(dt)
 
     if other.isPlatform == true then
       self.exploding = true
+      screen:setShake(4)
+      world:remove(self)
+      other:takeDamage(1)
     end
 
 

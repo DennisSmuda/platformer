@@ -3,7 +3,7 @@ local collectibles = {
   Pistol = {
     xOff = 6,
     yOff = 12,
-    width = 5,
+    width = 7,
     height = 4,
     image = "pistol_img"
   },
