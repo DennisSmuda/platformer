@@ -7,7 +7,7 @@ function Pistol:initialize (x,y)
   Collectible.initialize(self, x, y, 'Pistol')
 
   self.lastShot   = 0
-  self.shotDelay  = 1
+  self.shotDelay  = 0.3
   self.canShoot   = false
   self.direction  = nil
 

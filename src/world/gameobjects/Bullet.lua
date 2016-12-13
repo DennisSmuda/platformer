@@ -35,9 +35,13 @@ function Bullet:initialize(x, y, dir)
   world:add(self, self.x+self.xOff, self.y+self.yOff, self.width, self.height)
 end
 
-function BulletFilter(other, b)
+function BulletFilter(self, other)
+  print(other)
   if other.isPlatform then return 'touch'
   elseif other.isPlayer then return nil
+  elseif other.isCollectible then
+    print('FUCKJCLKCJLKJ')
+    return 'cross'
   else return 'touch'
   end
 end

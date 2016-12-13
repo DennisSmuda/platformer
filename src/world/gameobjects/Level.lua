@@ -107,6 +107,9 @@ end
 
 
 function Level:update(dt)
+  for i,object in ipairs(self.worldObjects) do
+    object:update(dt)
+  end
   -- map:update(dt)
   for i,collectible in ipairs(self.collectibles) do
     collectible:update(dt)

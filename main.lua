@@ -65,6 +65,7 @@ end
 
 function loadGraphics()
   love.graphics.setDefaultFilter("nearest", "nearest")
+  block_particle= love.graphics.newImage("assets/img/block_particle.png")
   blaster_right = love.graphics.newImage("assets/img/blaster_right.png")
   blaster_left  = love.graphics.newImage("assets/img/blaster_left.png")
   bullet_img    = love.graphics.newImage("assets/img/bullet.png")
@@ -82,9 +83,9 @@ function loadGraphics()
   ladderQuad    = love.graphics.newQuad(18, 18, 18, 18, tileset:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
-  playerG = anim8.newGrid(12,12, playerset:getDimensions())
+  playerG   = anim8.newGrid(12,12, playerset:getDimensions())
 
-  explosionset = love.graphics.newImage("assets/img/explosion.png")
+  explosionset     = love.graphics.newImage("assets/img/explosion.png")
   block_damage_set = love.graphics.newImage("assets/img/block_break_frames.png")
   block_damage_1   = love.graphics.newQuad(0,0,16,16, block_damage_set:getDimensions())
   block_damage_2   = love.graphics.newQuad(16,0,16,16, block_damage_set:getDimensions())
@@ -93,14 +94,13 @@ function loadGraphics()
 
 
   --== Player Animations
-  walkingRight = anim8.newAnimation(playerG('1-2', 1), 0.15)
-  walkingLeft  = anim8.newAnimation(playerG('3-4', 1), 0.15)
-  wallSlideRight = anim8.newAnimation(playerG('5-6', 1), 0.2)
-  wallSlideLeft = anim8.newAnimation(playerG('5-6', 2), 0.2)
-  idleRight = anim8.newAnimation(playerG('1-2', 2), 0.3)
-  idleLeft = anim8.newAnimation(playerG('3-4', 2), 0.3)
-  jumpRight = anim8.newAnimation(playerG('1-2', 3), 0.2)
-  jumpLeft = anim8.newAnimation(playerG('3-4', 3), 0.2)
-  --== Explosion
+  walkingRight    = anim8.newAnimation(playerG('1-2', 1), 0.15)
+  walkingLeft     = anim8.newAnimation(playerG('3-4', 1), 0.15)
+  wallSlideRight  = anim8.newAnimation(playerG('5-6', 1), 0.2)
+  wallSlideLeft   = anim8.newAnimation(playerG('5-6', 2), 0.2)
+  idleRight       = anim8.newAnimation(playerG('1-2', 2), 0.3)
+  idleLeft        = anim8.newAnimation(playerG('3-4', 2), 0.3)
+  jumpRight       = anim8.newAnimation(playerG('1-2', 3), 0.2)
+  jumpLeft        = anim8.newAnimation(playerG('3-4', 3), 0.2)
 
 end
