@@ -64,9 +64,9 @@ end
 function Pistol:drawOnOwner()
 
   if self.direction == 'right' then
-    love.graphics.draw(blaster_right, self.owner.x+self.xOff, self.owner.y+self.height+1)
+    love.graphics.draw(blaster_right, self.owner.x+1, self.owner.y+self.height+1)
   elseif self.direction == 'left' then
-    love.graphics.draw(blaster_left, self.owner.x+self.xOff, self.owner.y+self.height+1)
+    love.graphics.draw(blaster_left, self.owner.x+1, self.owner.y+self.height+1)
   end
 end
 
@@ -75,6 +75,9 @@ function Pistol:handleInput(dt)
   local now = love.timer.getTime()
   -- print("Handle Input: " .. self.lastShot .. tostring(self.canShoot) )
   self.canShoot = now - self.lastShot > self.shotDelay
+  if self.owner.isOnLeftWall or self.owner.isOnRightWall then
+    self.canShoot = false
+  end
 
   --== Shoot Bullets Left/Right
   if love.keyboard.isDown('right') and self.canShoot == true then
