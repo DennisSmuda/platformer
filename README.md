@@ -2,6 +2,9 @@
 
 made with [löve](http://www.love2d.org)
 
+![screenshot](screen.png)
+
 ![screen-gif](screen.gif)
 
-![screenshot](screen.png)
+![running-gif](running.gif)
+![shooting-gif](shooting.gif)

@@ -65,7 +65,7 @@ end
 
 function loadGraphics()
   love.graphics.setDefaultFilter("nearest", "nearest")
-  block_particle= love.graphics.newImage("assets/img/block_particle.png")
+  particle_img  = love.graphics.newImage("assets/img/particle.png")
   blaster_right = love.graphics.newImage("assets/img/blaster_right.png")
   blaster_left  = love.graphics.newImage("assets/img/blaster_left.png")
   bullet_img    = love.graphics.newImage("assets/img/bullet.png")
