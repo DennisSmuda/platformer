@@ -2,7 +2,7 @@ require "src.config.Levels"
 require "src.ui.GameOverlay"
 require "src.world.gameobjects.Level"
 require "src.world.player.Player"
-require "src.LevelManager"
+require "src..LevelManager"
 
 
 local Game = state:new()
@@ -40,6 +40,7 @@ function Game.load (args)
 
   local dx, dy = screenW - camera.x, screenH - camera.y
   camera:lookAt(screenW/2, screenH/2)
+
 
 end
 

@@ -65,6 +65,7 @@ end
 
 function loadGraphics()
   love.graphics.setDefaultFilter("nearest", "nearest")
+  inventoryFrame_img = love.graphics.newImage("assets/img/inventory_frame.png")
   particle_img  = love.graphics.newImage("assets/img/particle.png")
   blaster_right = love.graphics.newImage("assets/img/blaster_right.png")
   blaster_left  = love.graphics.newImage("assets/img/blaster_left.png")
@@ -72,7 +73,6 @@ function loadGraphics()
   portal_img    = love.graphics.newImage("assets/img/portal.png")
   stone_img     = love.graphics.newImage("assets/img/stone.png")
   cloud_img     = love.graphics.newImage("assets/img/cloud.png")
-  inventoryFrame_img = love.graphics.newImage("assets/img/inventory_frame.png")
   heart_img     = love.graphics.newImage("assets/img/inventory_frame.png")
 
   --== Tileset ===

@@ -6,7 +6,8 @@ function Bullet:initialize(x, y, dir)
   self.x      = x
   self.y      = y
   self.xOff   = 0
-  self.yOff   = 5
+  self.yOff   = 2
+  self.spread = love.math.random(-5, 1)
   self.dir    = dir
   self.image  = bullet_img
   self.width  = 4
@@ -63,10 +64,11 @@ function Bullet:update(dt)
 
   --== Move Bullet
   -- local goalX = (self.x+self.xOff) + self.speed*dt
-  local goalX = self.x+ self.speed*dt
-  local actualX, actualY, cols, len = world:move(self, goalX, self.y+self.yOff, BulletFilter)
+  local goalX, goalY = self.x+ self.speed*dt, self.y + self.spread*dt
+  local actualX, actualY, cols, len = world:move(self, goalX, goalY, BulletFilter)
 
   self.x = actualX
+  self.y = actualY
 
   for i=1, len do
     local other = cols[i].other
@@ -74,11 +76,7 @@ function Bullet:update(dt)
 
     if other.isPlatform == true then
       self.exploding = true
-      if screen:getShake() > 0 then
-        screen:setShake(screen:getShake()+1)
-      else
-        screen:setShake(4)
-      end
+      screen:setShake(4)
       world:remove(self)
       other:takeDamage(1)
     end

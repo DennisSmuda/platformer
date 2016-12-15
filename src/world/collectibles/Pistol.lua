@@ -37,6 +37,15 @@ function Pistol:update(dt)
 
   end
 
+  --== Update Gun - Recoil
+  if self.owner then
+    if self.xOff < 1 then
+      self.xOff = self.xOff + 10*dt
+    elseif self.xOff > 1 then
+      self.xOff = self.xOff - 10*dt
+    end
+  end
+
 end
 
 function Pistol:draw()
@@ -64,9 +73,9 @@ end
 function Pistol:drawOnOwner()
 
   if self.direction == 'right' then
-    love.graphics.draw(blaster_right, self.owner.x+1, self.owner.y+self.height+1)
+    love.graphics.draw(blaster_right, self.owner.x+self.xOff, self.owner.y+self.yOff)
   elseif self.direction == 'left' then
-    love.graphics.draw(blaster_left, self.owner.x+1, self.owner.y+self.height+1)
+    love.graphics.draw(blaster_left, self.owner.x+self.xOff, self.owner.y+self.yOff)
   end
 end
 
@@ -97,6 +106,8 @@ end
 
 function Pistol:handlePassiveInput(dt)
   if love.keyboard.isDown("e") then
+    self.xOff = 1
+    self.yOff = 5
     self.owner = player
     world:remove(self)
   end
@@ -104,7 +115,12 @@ function Pistol:handlePassiveInput(dt)
 end
 
 function Pistol:shoot(dir)
-  screen:setShake(3)
+  -- screen:setShake(3)
+  if dir == 'left' then
+    self.xOff = self.xOff+3
+  elseif dir == 'right' then
+    self.xOff = self.xOff-3
+  end
 
   -- print("Shoot : " .. dir)
   local bullet = Bullet(self.owner.x, self.owner.y, dir)
