@@ -3,6 +3,7 @@ require "src.world.player.Inventory"
 Player = class('Player')
 
 function Player:initialize()
+  self.isPlayer = true
   self.type = 'player'
   self.width = 12
   self.height = 12
@@ -85,9 +86,15 @@ function Player:draw()
 end
 
 playerFilter = function(item, other)
-  if other.isPlatform then return 'slide' end
-  if other.isCollectible then return 'cross' end
-  return 'slide'
+  if other.isPlatform then return 'slide'
+  elseif other.isFragment then return 'cross'
+  elseif other.isBullet then
+    print("Player hit Bullet")
+     return 'cross'
+  elseif other.isCollectible then return 'cross'
+  else
+    return 'slide'
+  end
 end
 
 
@@ -166,6 +173,7 @@ function Player:move(dt)
       self.yVel = self.yVel + self.gravity*dt/1.5
     end
   else
+    --== Apply regular gravity while midair
     self.yVel = self.yVel + self.gravity*dt
   end
   -- Limit gravity

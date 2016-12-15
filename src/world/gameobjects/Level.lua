@@ -116,6 +116,10 @@ function Level:update(dt)
   for i,collectible in ipairs(self.collectibles) do
     collectible:update(dt)
   end
+
+  for i,fragment in ipairs(self.fragments) do
+    fragment:update(dt)
+  end
 end
 
 function Level:draw()
@@ -148,14 +152,14 @@ end
 
 function Level:spawnFragments(x, y, type, amount)
   for i=1,amount do
-    local xOff, yOff = 0, 0
+    local xOff, yOff = 1, 1
 
     if i == 2 then
-      xOff,yOff = 8, 0
+      xOff,yOff = 7, 1
     elseif i == 3 then
-      xOff,yOff = 0, 8
+      xOff,yOff = 1, 8
     elseif i == 4 then
-      xOff,yOff = 8, 8
+      xOff,yOff = 7, 8
     end
 
     local fragment = Fragment(x+xOff, y+yOff, type)

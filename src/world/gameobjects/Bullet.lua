@@ -17,13 +17,10 @@ function Bullet:initialize(x, y, dir)
   self.explosionG = anim8.newGrid(18,18, explosionset:getDimensions())
   self.explosion_anim = anim8.newAnimation(self.explosionG('1-4', 1), 0.065, function(anim, numLoops)
     self.dead = true
-    -- screen:setShake(0)
   end)
 
   self.exploding = false
   self.dead      = false
-
-
 
 
   self.psystem = love.graphics.newParticleSystem(particle_img, 2)
@@ -48,10 +45,10 @@ end
 
 function BulletFilter(self, other)
   if other.isPlatform then return 'touch'
-  elseif other.isPlayer then return nil
-  elseif other.isCollectible then
+  elseif other.isPlayer == true then
+     return 'touch'
+  elseif other.isCollectible or other.isFragment then
     return 'cross'
-  else return 'touch'
   end
 end
 
@@ -81,7 +78,6 @@ function Bullet:update(dt)
       world:remove(self)
       other:takeDamage(1)
     end
-
 
   end
 
