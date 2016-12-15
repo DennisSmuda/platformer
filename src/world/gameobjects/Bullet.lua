@@ -15,7 +15,7 @@ function Bullet:initialize(x, y, dir)
   self.active = true
 
   self.explosionG = anim8.newGrid(18,18, explosionset:getDimensions())
-  self.explosion_anim = anim8.newAnimation(self.explosionG('1-4', 1), 0.1, function(anim, numLoops)
+  self.explosion_anim = anim8.newAnimation(self.explosionG('1-4', 1), 0.065, function(anim, numLoops)
     self.dead = true
     -- screen:setShake(0)
   end)

@@ -3,6 +3,7 @@ require "src.world.CollectibleFactory"
 require "src.world.gameobjects.Cloud"
 require "src.world.gameobjects.Portal"
 require "src.world.gameobjects.Ladder"
+require "src.world.gameobjects.Fragment"
 
 
 Level = class('Level')
@@ -11,6 +12,7 @@ function Level:initialize()
   self.worldObjects = {}
   self.collectibles = {}
   self.statics = {}
+  self.fragments = {}
 
   self.tileFactory        = TileFactory()
   self.collectibleFactory = CollectibleFactory()
@@ -137,4 +139,27 @@ function Level:drawTiles()
   for i,tile in ipairs(self.worldObjects) do
     tile:draw()
   end
+
+  for i,fragment in ipairs(self.fragments) do
+    fragment:draw()
+  end
+end
+
+
+function Level:spawnFragments(x, y, type, amount)
+  for i=1,amount do
+    local xOff, yOff = 0, 0
+
+    if i == 2 then
+      xOff,yOff = 8, 0
+    elseif i == 3 then
+      xOff,yOff = 0, 8
+    elseif i == 4 then
+      xOff,yOff = 8, 8
+    end
+
+    local fragment = Fragment(x+xOff, y+yOff, type)
+    table.insert(self.fragments, fragment)
+  end
+
 end

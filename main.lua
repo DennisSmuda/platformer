@@ -74,13 +74,17 @@ function loadGraphics()
   cloud_img     = love.graphics.newImage("assets/img/cloud.png")
 
   --== Tileset ===
-  tileset = love.graphics.newImage("assets/img/tileset.png")
+  tileset     = love.graphics.newImage("assets/img/tileset.png")
+  fragmentset = love.graphics.newImage("assets/img/fragment_set.png")
 
   platformQuad  = love.graphics.newQuad(36, 0, 18, 18, tileset:getDimensions())
   blockQuad     = love.graphics.newQuad(0, 0, 18, 18, tileset:getDimensions())
   grassQuad     = love.graphics.newQuad(18, 0, 18, 18, tileset:getDimensions())
   portalQuad    = love.graphics.newQuad(0, 18, 18, 18, tileset:getDimensions())
   ladderQuad    = love.graphics.newQuad(18, 18, 18, 18, tileset:getDimensions())
+
+  blockFragmentQuad = love.graphics.newQuad(0, 0, 8, 8, tileset:getDimensions())
+  grassFragmentQuad = love.graphics.newQuad(8, 0, 8, 8, tileset:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
   playerG   = anim8.newGrid(12,12, playerset:getDimensions())
