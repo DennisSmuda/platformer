@@ -52,6 +52,7 @@ end
 
 
 function Player:draw()
+  self.inventory:draw()
   -- love.graphics.setColor(255,255,255,255)
 
     if self.grounded ~= true then
@@ -150,7 +151,6 @@ function Player:move(dt)
 
   if isTouchingCollectible == false then
     level:resetMessages()
-
   end
 
 
@@ -235,10 +235,8 @@ function Player:handleInput(dt)
         self.yVel = -self.jumpForce
       end
     end
-
   end
 
-  -- local now = love.timer.getTime()
 
   if love.keyboard.isDown("a") then
 
@@ -255,15 +253,12 @@ function Player:handleInput(dt)
         self.xVel = self.xVel + self.speed*dt
       end
     end
-    -- self.xVel = self.xVel - self.speed*dt
 
   end
 
 
   if love.keyboard.isDown("d") then
-    -- if self.direction ~= 'right' then
-      self.direction = 'right'
-    -- end
+    self.direction = 'right'
     self.xVel = self.xVel + self.speed*dt
 
     if self.isOnLeftWall == true then

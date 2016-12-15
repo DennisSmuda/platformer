@@ -41,7 +41,6 @@ function Game.load (args)
   local dx, dy = screenW - camera.x, screenH - camera.y
   camera:lookAt(screenW/2, screenH/2)
 
-
 end
 
 

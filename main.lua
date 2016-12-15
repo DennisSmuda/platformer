@@ -72,6 +72,8 @@ function loadGraphics()
   portal_img    = love.graphics.newImage("assets/img/portal.png")
   stone_img     = love.graphics.newImage("assets/img/stone.png")
   cloud_img     = love.graphics.newImage("assets/img/cloud.png")
+  inventoryFrame_img = love.graphics.newImage("assets/img/inventory_frame.png")
+  heart_img     = love.graphics.newImage("assets/img/inventory_frame.png")
 
   --== Tileset ===
   tileset     = love.graphics.newImage("assets/img/tileset.png")

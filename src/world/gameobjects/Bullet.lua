@@ -32,12 +32,12 @@ function Bullet:initialize(x, y, dir)
 
 
   if self.dir == 'right' then
-    self.speed  = 120
-    self.xOff = 12
+    self.speed  = 150
+    self.xOff   = 12
     self.psystem:setLinearAcceleration(-400, -100, -500, 100) -- Random movement in all directions.
   elseif self.dir == 'left' then
-    self.xOff = -12
-    self.speed  = -120
+    self.speed  = -150
+    self.xOff   = -12
     self.psystem:setLinearAcceleration(400, -100, 500, 100) -- Random movement in all directions.
   end
   world:add(self, self.x+self.xOff, self.y+self.yOff, self.width, self.height)
@@ -74,7 +74,11 @@ function Bullet:update(dt)
 
     if other.isPlatform == true then
       self.exploding = true
-      screen:setShake(4)
+      if screen:getShake() > 0 then
+        screen:setShake(screen:getShake()+1)
+      else
+        screen:setShake(4)
+      end
       world:remove(self)
       other:takeDamage(1)
     end
