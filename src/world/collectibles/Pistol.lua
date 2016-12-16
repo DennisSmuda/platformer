@@ -10,6 +10,8 @@ function Pistol:initialize (x,y)
   self.shotDelay  = 0.3
   self.canShoot   = false
   self.direction  = nil
+  self.inventoryImg = blaster_right
+  self.isActive   = false
 
   self.bullets    = {}
 end
@@ -109,17 +111,20 @@ function Pistol:handlePassiveInput(dt)
     self.xOff = 1
     self.yOff = 5
     self.owner = player
+    self.owner.inventory:addItem(self)
     world:remove(self)
   end
 
 end
 
 function Pistol:shoot(dir)
-  -- screen:setShake(3)
+  -- Recoil for player and gun
   if dir == 'left' then
     self.xOff = self.xOff+3
+    self.owner.xVel = self.owner.xVel + 1.5
   elseif dir == 'right' then
     self.xOff = self.xOff-3
+    self.owner.xVel = self.owner.xVel - 1.5
   end
 
   -- print("Shoot : " .. dir)
