@@ -48,7 +48,30 @@ function Player:update(dt)
   wallSlideLeft:update(dt)
   wallSlideRight:update(dt)
 
+  local x,y,w,h = world:getRect(self)
+  print("Player Feel: " .. self.x .. ':' .. self.y .. '::' .. x .. ':' .. y)
+  local items, len = world:queryRect(self.x+12, self.y-4, 16, 16)
+  -- local items, len = world:getItems()
+
+  print(len)
+  for i=1,len%2 do
+    if items[i].isPlatform == true then
+      local x,y,w,h = world:getRect(items[i])
+
+      print(i .. ': Platform : ' .. x .. ' : ' .. y .. ': :' .. w .. ':' .. h)
+    end
+  end
+
 end
+
+function PlayerPickupFilter(item)
+  print("Player PickupFilter: " .. #item)
+  -- if item.isPlatform then
+  --   print("Platform detected")
+  -- end
+
+end
+
 
 
 function Player:draw()
