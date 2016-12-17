@@ -66,7 +66,6 @@ function Game.draw()
 
     camera:attach()
 
-      cloud:draw()
 
       level:drawStatics()
       level:drawTiles()
