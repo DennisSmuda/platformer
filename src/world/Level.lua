@@ -8,7 +8,7 @@ require "src.world.gameobjects.Fragment"
 
 Level = class('Level')
 
-function Level:initialize()
+function Level:initialize(type)
   self.worldObjects = {}
   self.collectibles = {}
   self.statics = {}
@@ -17,7 +17,13 @@ function Level:initialize()
   self.tileFactory        = TileFactory()
   self.collectibleFactory = CollectibleFactory()
 
+  if type == nil or type == 'static' then
+    self:setupStaticLevel()
+  end
 
+end
+
+function Level:setupStaticLevel()
   tilelayers = require("assets.data.testlevel_1")["layers"]
 
   for i,layer in ipairs(tilelayers) do
@@ -40,7 +46,6 @@ function Level:initialize()
   self:makeCollectibles(collectibles)
   --== Portals, Ladders, etc..
   self:setStatics(statics)
-
 end
 
 --== Static World Objects (Ground, Wall, Platforms, etc..)

@@ -39,7 +39,7 @@ function love.load()
   if arg[#arg] == "-debug" then require("mobdebug").start() end -- Debug code for ZeroBrane
 
   love.window.setMode(1000, 600, {fullscreen=false, vsync=true, resizable=false})
-  love.graphics.setBackgroundColor(95, 205, 228)
+  -- love.graphics.setBackgroundColor(95, 205, 228)
 
 
   font = love.graphics.newFont("assets/fonts/slkscr.ttf", 8)

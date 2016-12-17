@@ -15,17 +15,19 @@ gamestate = {
 function Game.load (args)
   --== PostProcessing
   local grain     = shine.filmgrain()
+  grain.parameters = { grainsize = 1, opacity = 0.1}
   local scanlines = shine.scanlines()
   scanlines.parameters = {pixel_size = 3, opacity = 0.2 }
   local vignette  = shine.vignette()
-  vignette.parameters = {radius = 0.7, opacity = 0.3}
-  -- post_effect = scanlines:chain(grain):chain(vignette)
-  post_effect = scanlines:chain(grain)
+  vignette.parameters = {radius = 0.5, opacity = 0.3}
+  post_effect = scanlines:chain(grain):chain(vignette)
+  -- post_effect = scanlines:chain(grain)
 
 
   --== Setup Game World
   world = bump.newWorld(8)
   level = Level()
+  -- level = Level('cave')
 
   player = Player()
   -- cloud = Cloud()
@@ -50,6 +52,7 @@ function Game.update (dt)
 
   player:update(dt)
 
+
    local dx,dy = player.x - camera.x, player.y - camera.y
    camera:move(dx*0.09, dy*0.09)
 
@@ -62,7 +65,7 @@ function Game.draw()
 
   screen:apply()
 
-  -- post_effect:draw(function()
+  post_effect:draw(function()
 
     camera:attach()
 
@@ -77,7 +80,7 @@ function Game.draw()
     camera:detach()
 
 
-  -- end)
+  end)
 
 end
 

@@ -63,16 +63,18 @@ function Player:checkSurroundingsForFragments()
     if items[i].isFragment == true then
       local x,y,w,h = world:getRect(items[i])
 
-      print(i .. ': Fragment : ' .. x .. ' : ' .. y .. ': :' .. w .. ':' .. h)
+      -- print(i .. ': Fragment : ' .. x .. ' : ' .. y .. ': :' .. w .. ':' .. h)
     end
   end
 
 end
 
-
+function Player:drawInventory()
+  self.inventory:draw()
+end
 
 function Player:draw()
-  self.inventory:draw()
+  -- self.inventory:draw()
   -- love.graphics.setColor(255,255,255,255)
 
     if self.grounded ~= true then
