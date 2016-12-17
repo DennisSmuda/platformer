@@ -101,12 +101,17 @@ function Level:setStatics(statics)
 end
 
 
-function Level:resetMessages()
+function Level:resetCollectibleMessages()
   for i,collectible in ipairs(self.collectibles) do
     collectible:toggleMessage(false)
   end
 end
 
+function Level:resetStaticMessages()
+  for i, static in ipairs(self.statics) do
+    static:toggleMessage(false)
+  end
+end
 
 function Level:update(dt)
   for i,object in ipairs(self.worldObjects) do

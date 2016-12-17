@@ -27,9 +27,8 @@ function Game.load (args)
   world = bump.newWorld(8)
   level = Level()
 
-
   player = Player()
-  cloud = Cloud()
+  -- cloud = Cloud()
 
 
   --== Camera
@@ -62,8 +61,6 @@ end
 function Game.draw()
 
   screen:apply()
-
-
 
   -- post_effect:draw(function()
 

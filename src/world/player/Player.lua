@@ -109,6 +109,7 @@ end
 playerFilter = function(item, other)
   if other.isPlatform then return 'slide'
   elseif other.isFragment then return 'cross'
+  elseif other.isPortal then return 'cross'
   elseif other.isBullet then
     print("Player hit Bullet")
      return 'cross'
@@ -127,6 +128,7 @@ function Player:move(dt)
   self.x, self.y = actualX, actualY
   world:update(self, self.x, self.y)
   local isTouchingCollectible = false
+  local isTouchingPortal      = false
 
 
   for i=1, len do
@@ -164,13 +166,23 @@ function Player:move(dt)
     elseif other.isCollectible then
       other:toggleMessage(true)
       isTouchingCollectible = true
+
+    elseif other.isPortal then
+      isTouchingPortal = true
+      other:toggleMessage(true)
+      other:update(dt)
+
     end
 
   end
 
 
   if isTouchingCollectible == false then
-    level:resetMessages()
+    level:resetCollectibleMessages()
+  end
+
+  if isTouchingPortal == false then
+    level:resetStaticMessages()
   end
 
 

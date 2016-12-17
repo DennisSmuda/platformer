@@ -87,10 +87,10 @@ function loadGraphics()
   earthEmptyQuad  = love.graphics.newQuad(36, 18, 18, 18, tileset:getDimensions())
   ladderQuad      = love.graphics.newQuad(18, 18, 18, 18, tileset:getDimensions())
 
-  --== TODO: Fragmentset doesnt work, instead uses tileset.. 
+  --== TODO: Fragmentset doesnt work, instead uses tileset..
   fragment_set      = love.graphics.newImage("assets/img/fragmentset.png")
   blockFragmentQuad = love.graphics.newQuad(0, 0, 10, 10, fragment_set:getDimensions())
-  earthFragmentQuad = love.graphics.newQuad(20, 0, 10, 10, fragment_set:getDimensions())
+  earthFragmentQuad = love.graphics.newQuad(10, 0, 10, 10, fragment_set:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
   playerG   = anim8.newGrid(12,12, playerset:getDimensions())

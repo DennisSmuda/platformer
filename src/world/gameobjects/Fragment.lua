@@ -63,5 +63,5 @@ function Fragment:update(dt)
 
 end
 function Fragment:draw()
-  love.graphics.draw(tileset, self.image, self.x-1, self.y-1)
+  love.graphics.draw(fragment_set, self.image, self.x-1, self.y-1)
 end
