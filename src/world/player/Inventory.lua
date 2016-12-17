@@ -3,13 +3,13 @@
 Inventory = class('Inventory')
 
 function Inventory:initialize()
-  self.size     = 6
+  self.size     = 2
   self.numItems = 0
   self.items = {}
   self.activeItem = 1
 
 
-  self.xOff = love.graphics.getWidth()
+  self.xOff = love.graphics.getWidth()/5.8
   self.yOff = love.graphics.getHeight()/7.5
   print(self.xOff)
 end
@@ -26,13 +26,13 @@ function Inventory:draw()
     else
       love.graphics.setColor(255, 255, 255, 128)
     end
-    love.graphics.draw(inventoryFrame_img, camera.x-85 + (i*24), camera.y+self.yOff)
-    love.graphics.print(tostring(i), camera.x-84 + (i*24), camera.y+self.yOff+1)
+    love.graphics.draw(inventoryFrame_img, camera.x-self.xOff + (i*24), camera.y-self.yOff)
+    love.graphics.print(tostring(i), camera.x-self.xOff + (i*24)+1, camera.y-self.yOff+1)
     love.graphics.setColor(255, 255, 255, 255)
   end
 
   for i,item in ipairs(self.items) do
-    love.graphics.draw(item.inventoryImg, camera.x-81 + (i*24), camera.y+self.yOff+6)
+    love.graphics.draw(item.inventoryImg, camera.x-self.xOff + (i*28), camera.y-self.yOff+6)
   end
 
 end

@@ -17,6 +17,7 @@ Camera  = require "lib.camera"  -- Camera
 Signal  = require "lib.signal"  -- Eventing
 anim8   = require "lib.anim8"   -- Anim
 sti     = require "lib.sti"   -- Anim
+LightWorld = require "lib.light_world"
 
 --==
 Colors = require "src.config.Colors"
@@ -37,9 +38,16 @@ windowW, windowH = love.graphics.getDimensions()
 
 function love.load()
   if arg[#arg] == "-debug" then require("mobdebug").start() end -- Debug code for ZeroBrane
-  love.window.setMode(1000, 600, {fullscreen=false, vsync=true, resizable=false})
 
+  love.window.setMode(1000, 600, {fullscreen=false, vsync=true, resizable=false})
   love.graphics.setBackgroundColor(95, 205, 228)
+
+  lightWorld = LightWorld({
+    ambient = {55,55,55},
+  })
+
+
+
   font = love.graphics.newFont("assets/fonts/slkscr.ttf", 8)
   font:setFilter("nearest", "nearest")
   -- print(font:getFilter())

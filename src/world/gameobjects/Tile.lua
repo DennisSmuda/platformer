@@ -48,7 +48,6 @@ function Tile:draw ()
   elseif self.health == 0 then
   end
 
-
 end
 
 

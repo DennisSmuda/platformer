@@ -2,7 +2,7 @@ require "src.config.Levels"
 require "src.ui.GameOverlay"
 require "src.world.gameobjects.Level"
 require "src.world.player.Player"
-require "src..LevelManager"
+require "src.LevelManager"
 
 
 local Game = state:new()
@@ -80,6 +80,7 @@ function Game.draw()
       level:drawCollectibles()
 
     camera:detach()
+
 
   -- end)
 
