@@ -1,8 +1,7 @@
 require "src.config.Levels"
 require "src.ui.GameOverlay"
-require "src.world.gameobjects.Level"
+require "src.world.Level"
 require "src.world.player.Player"
-require "src.LevelManager"
 
 
 local Game = state:new()

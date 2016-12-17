@@ -24,6 +24,10 @@ function Tile:initialize(x,y, type)
       self.image = blockQuad
     elseif self.type == 2 then
       self.image = grassQuad
+    elseif self.type == 3 then
+      self.image = earthQuad
+    elseif self.type == 7 then
+      self.image = earthEmptyQuad
     end
   end
 
@@ -38,14 +42,18 @@ function Tile:draw ()
   end
 
   if self.health == 4 then
-    love.graphics.draw(block_damage_set, block_damage_1, self.x, self.y)
+    love.graphics.draw(block_damage_set, block_damage_1, self.x, self.y+1)
   elseif self.health == 3 then
-    love.graphics.draw(block_damage_set, block_damage_2, self.x, self.y)
+    love.graphics.draw(block_damage_set, block_damage_2, self.x, self.y+1)
   elseif self.health == 2 then
-    love.graphics.draw(block_damage_set, block_damage_3, self.x, self.y)
+    love.graphics.draw(block_damage_set, block_damage_3, self.x, self.y+1)
   elseif self.health == 1 then
-    love.graphics.draw(block_damage_set, block_damage_4, self.x, self.y)
+    love.graphics.draw(block_damage_set, block_damage_4, self.x, self.y+1)
   elseif self.health == 0 then
+    --== Earth Quad resets to empty image
+    if self.type == 3 and self.image ~= earthEmptyQuad then
+      self.image = earthEmptyQuad
+    end
   end
 
 end

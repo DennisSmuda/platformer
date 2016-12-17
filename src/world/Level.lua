@@ -91,10 +91,10 @@ function Level:setStatics(statics)
     if object == 5 then
       --== Portal -> Set start Location
       gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
-      local static = Portal(x,y)
+      local static = Portal(x,y, 'purple')
       table.insert(self.statics, static)
     elseif object == 6 then
-      local static = Ladder(x,y)
+      local static = Portal(x,y, 'green')
       table.insert(self.statics, static)
     end
   end

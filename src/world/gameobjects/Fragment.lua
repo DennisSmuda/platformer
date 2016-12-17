@@ -17,8 +17,8 @@ function Fragment:initialize(x, y, type)
 
   if self.type == 1 then
     self.image = blockFragmentQuad
-  elseif self.type == 2 then
-    self.image = grassFragmentQuad
+  elseif self.type == 2 or self.type == 3 or self.type == 7 then
+    self.image = earthFragmentQuad
   end
 
   world:add(self, self.x, self.y, self.width, self.height)
@@ -63,5 +63,5 @@ function Fragment:update(dt)
 
 end
 function Fragment:draw()
-  love.graphics.draw(tileset, self.image, self.x, self.y)
+  love.graphics.draw(tileset, self.image, self.x-1, self.y-1)
 end

@@ -17,7 +17,6 @@ Camera  = require "lib.camera"  -- Camera
 Signal  = require "lib.signal"  -- Eventing
 anim8   = require "lib.anim8"   -- Anim
 sti     = require "lib.sti"   -- Anim
-LightWorld = require "lib.light_world"
 
 --==
 Colors = require "src.config.Colors"
@@ -41,11 +40,6 @@ function love.load()
 
   love.window.setMode(1000, 600, {fullscreen=false, vsync=true, resizable=false})
   love.graphics.setBackgroundColor(95, 205, 228)
-
-  lightWorld = LightWorld({
-    ambient = {55,55,55},
-  })
-
 
 
   font = love.graphics.newFont("assets/fonts/slkscr.ttf", 8)
@@ -78,23 +72,25 @@ function loadGraphics()
   blaster_right = love.graphics.newImage("assets/img/blaster_right.png")
   blaster_left  = love.graphics.newImage("assets/img/blaster_left.png")
   bullet_img    = love.graphics.newImage("assets/img/bullet.png")
-  portal_img    = love.graphics.newImage("assets/img/portal.png")
+  portal_purple_img    = love.graphics.newImage("assets/img/portal.png")
+  portal_green_img = love.graphics.newImage("assets/img/portal_green.png")
   stone_img     = love.graphics.newImage("assets/img/stone.png")
   cloud_img     = love.graphics.newImage("assets/img/cloud.png")
   heart_img     = love.graphics.newImage("assets/img/inventory_frame.png")
 
   --== Tileset ===
   tileset     = love.graphics.newImage("assets/img/tileset.png")
-  fragmentset = love.graphics.newImage("assets/img/fragment_set.png")
 
-  platformQuad  = love.graphics.newQuad(36, 0, 18, 18, tileset:getDimensions())
-  blockQuad     = love.graphics.newQuad(0, 0, 18, 18, tileset:getDimensions())
-  grassQuad     = love.graphics.newQuad(18, 0, 18, 18, tileset:getDimensions())
-  portalQuad    = love.graphics.newQuad(0, 18, 18, 18, tileset:getDimensions())
-  ladderQuad    = love.graphics.newQuad(18, 18, 18, 18, tileset:getDimensions())
+  blockQuad       = love.graphics.newQuad(0, 0, 18, 18, tileset:getDimensions())
+  grassQuad       = love.graphics.newQuad(18, 0, 18, 18, tileset:getDimensions())
+  earthQuad       = love.graphics.newQuad(36, 0, 18, 18, tileset:getDimensions())
+  earthEmptyQuad  = love.graphics.newQuad(36, 18, 18, 18, tileset:getDimensions())
+  ladderQuad      = love.graphics.newQuad(18, 18, 18, 18, tileset:getDimensions())
 
-  blockFragmentQuad = love.graphics.newQuad(0, 0, 8, 8, tileset:getDimensions())
-  grassFragmentQuad = love.graphics.newQuad(8, 0, 8, 8, tileset:getDimensions())
+  --== TODO: Fragmentset doesnt work, instead uses tileset.. 
+  fragment_set      = love.graphics.newImage("assets/img/fragmentset.png")
+  blockFragmentQuad = love.graphics.newQuad(0, 0, 10, 10, fragment_set:getDimensions())
+  earthFragmentQuad = love.graphics.newQuad(20, 0, 10, 10, fragment_set:getDimensions())
 
   playerset = love.graphics.newImage("assets/img/player.png")
   playerG   = anim8.newGrid(12,12, playerset:getDimensions())
@@ -105,6 +101,7 @@ function loadGraphics()
   block_damage_2   = love.graphics.newQuad(16,0,16,16, block_damage_set:getDimensions())
   block_damage_3   = love.graphics.newQuad(32,0,16,16, block_damage_set:getDimensions())
   block_damage_4   = love.graphics.newQuad(48,0,16,16, block_damage_set:getDimensions())
+
 
 
   --== Player Animations
