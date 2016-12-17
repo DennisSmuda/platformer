@@ -23,7 +23,7 @@ function Pistol:update(dt)
   end
 
   if self.owner then
-    self:handleInput(dt)
+    if self.owner.inputEnabled then self:handleInput(dt) end
     -- Update direction
     self.direction  = self.owner.direction
   end

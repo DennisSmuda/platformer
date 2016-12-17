@@ -11,6 +11,9 @@ function Tile:initialize(x,y, type)
   self.health = 5
   self.padding = 1 -- tileset padding to prevent 'bleeding'
 
+  if self.type then
+  else self.type = 0 end
+
 
 
   --== Check validity and set variables accordingly

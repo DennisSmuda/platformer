@@ -16,6 +16,9 @@ function Player:initialize()
   self.friction = 10
   self.gravity = 9.81
   self.mass = 10
+  self.inputEnabled = true
+  self.isFloating   = false
+  self.floatingStartPos = self.x
   --== Movement
   self.direction      = 'right'
   self.moving         = false;
@@ -27,6 +30,7 @@ function Player:initialize()
   self.wallHitTime    = 0
   self.wallJumpDelay  = 0.25
 
+
   --== Gameplay
   self.inventory = Inventory()
 
@@ -36,7 +40,12 @@ end
 
 
 function Player:update(dt)
-  self:handleInput(dt)
+  if self.inputEnabled == true and self.isFloating == false then
+    self:handleInput(dt)
+  elseif self.inputEnabled == false and self.isFloating == true then
+    self:float(dt)
+  end
+
   self:move(dt)
   self:checkSurroundingsForFragments(dt)
 
@@ -69,42 +78,48 @@ function Player:checkSurroundingsForFragments()
 
 end
 
+
 function Player:drawInventory()
   self.inventory:draw()
 end
 
 function Player:draw()
+  if self.isFloating == true then
+    floating:draw(playerset, self.x, self.y)
+    return
+  end
   -- self.inventory:draw()
   -- love.graphics.setColor(255,255,255,255)
 
-    if self.grounded ~= true then
-      --== Player is either on a wall or midair
-      if self.isOnLeftWall then
-        wallSlideLeft:draw(playerset, self.x, self.y)
-      elseif self.isOnRightWall == true then
-        wallSlideRight:draw(playerset, self.x, self.y)
-      elseif self.direction == 'right' then
-        jumpRight:draw(playerset, self.x, self.y)
-      else
-        jumpLeft:draw(playerset, self.x, self.y)
-      end
-
-    elseif self.moving then
-      --== Player is walkink
-      if self.direction == 'right' then
-        walkingRight:draw(playerset, self.x, self.y)
-      else
-        walkingLeft:draw(playerset, self.x, self.y)
-      end
-
+  if self.grounded ~= true then
+    --== Player is either on a wall or midair
+    if self.isOnLeftWall then
+      wallSlideLeft:draw(playerset, self.x, self.y)
+    elseif self.isOnRightWall == true then
+      wallSlideRight:draw(playerset, self.x, self.y)
+    elseif self.direction == 'right' then
+      jumpRight:draw(playerset, self.x, self.y)
     else
-      --== Player is idle
-      if self.direction == 'right' then
-        idleRight:draw(playerset, self.x, self.y)
-      else
-        idleLeft:draw(playerset, self.x, self.y)
-      end
+      jumpLeft:draw(playerset, self.x, self.y)
     end
+
+  elseif self.moving then
+    --== Player is walkink
+    if self.direction == 'right' then
+      walkingRight:draw(playerset, self.x, self.y)
+    else
+      walkingLeft:draw(playerset, self.x, self.y)
+    end
+
+  elseif self.moving == false then
+    --== Player is idle
+    if self.direction == 'right' then
+      idleRight:draw(playerset, self.x, self.y)
+    else
+      idleLeft:draw(playerset, self.x, self.y)
+    end
+  end
+
 
 end
 
@@ -314,6 +329,27 @@ function Player:handleInput(dt)
   if love.keyboard.isDown("right") then
     self.direction = 'right'
   end
+end
+
+
+function Player:float(dt)
+  self.yVel = -0.5
+  if self.floatingStartPos - self.y > 16 then
+    self.yVel = 0
+    self.x = gamestate.spawnLocation.x
+  end
+end
+
+function Player:toggleFloat(value)
+  if value == true then
+    self.inputEnabled = false
+    self.isFloating   = true
+    self.floatingStartPos = self.y
+  else
+    self.inputEnabled = true
+    self.isFloating   = false
+  end
+
 end
 
 

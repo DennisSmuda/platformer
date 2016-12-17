@@ -1,7 +1,7 @@
 
 Portal = class('Portal')
 
-function Portal:initialize(x, y, type)
+function Portal:initialize(x, y, color, location, destination)
   self.x        = x*16-8
   self.y        = y*16-8
   self.width    = 24
@@ -9,10 +9,13 @@ function Portal:initialize(x, y, type)
   self.isPortal = true
   self.showMessage = false
   self.image  = portal_purple_img
+  self.activated = false
+  self.location = location
+  self.destination = destination
 
-  if type == 'purple' then
+  if color == 'purple' then
     self.image = portal_purple_img
-  elseif type == 'green' then
+  elseif color == 'green' then
     self.image = portal_green_img
   end
 
@@ -21,28 +24,31 @@ function Portal:initialize(x, y, type)
 end
 
 function Portal:update(dt)
-  print("Handle Input")
-  if self.showMessage then
+  if self.showMessage and player.inputEnabled then
     self:handlePassiveInput(dt)
   end
 end
 
 function Portal:toggleMessage(value)
-  self.showMessage = value
+  if self.destination then
+    self.showMessage = value
+  end
 end
 
 function Portal:draw()
   love.graphics.draw(self.image, self.x, self.y)
 
-  if self.showMessage == true then
+  if self.showMessage == true and self.activated == false then
 
     love.graphics.printf("[E] to Teleport", self.x-20, self.y - 16, 70, "center")
   end
 end
 
 function Portal:handlePassiveInput(dt)
-  if love.keyboard.isDown('e') then
-    print("Teleport")
+  if love.keyboard.isDown('e') and self.destination then
+    self.activated = true
+    self.showMessage = false
+    player:toggleFloat(true, self.destination)
   end
 
 end

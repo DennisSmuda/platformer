@@ -1,9 +1,11 @@
+require "src.world.LevelGenerator"
 require "src.world.TileFactory"
 require "src.world.CollectibleFactory"
 require "src.world.gameobjects.Cloud"
 require "src.world.gameobjects.Portal"
 require "src.world.gameobjects.Ladder"
 require "src.world.gameobjects.Fragment"
+
 
 
 Level = class('Level')
@@ -16,10 +18,49 @@ function Level:initialize(type)
 
   self.tileFactory        = TileFactory()
   self.collectibleFactory = CollectibleFactory()
+  self.levelGenerator     = LevelGenerator()
 
-  if type == nil or type == 'static' then
-    self:setupStaticLevel()
+  self:setupStaticLevel()
+  self:makeCaves()
+
+end
+
+function Level:makeCaves()
+  mapData = self.levelGenerator.generateCaves(10, 10)
+
+  for i,object in ipairs(mapData) do
+    local x,y = i%10, math.floor(i/10)
+    if x == 0 then
+      x = 10
+      y = y - 1
+    end
+
+    y = y + 200
+
+    -- print(i .. ': ' .. x .. ':' .. y .. ': ' .. object)
+
+    if object == 3 then
+      local tile = self.tileFactory.makeTile(x,y, object)
+      table.insert(self.worldObjects, tile)
+    elseif object == 5 then
+      local static = Portal(x,y, 'green', 'caves')
+      table.insert(self.statics, static)
+      -- gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
+    elseif object == 6 then
+      local static = Portal(x,y, 'purple', 'caves', 'home')
+      table.insert(self.statics, static)
+    elseif object == 4 then
+      local collectible = Pistol(x,y)
+      table.insert(self.collectibles, collectible)
+
+    end
+    -- body...
   end
+
+end
+
+function Level:reset()
+  player:toggleFloat(true)
 
 end
 
@@ -47,6 +88,7 @@ function Level:setupStaticLevel()
   --== Portals, Ladders, etc..
   self:setStatics(statics)
 end
+
 
 --== Static World Objects (Ground, Wall, Platforms, etc..)
 function Level:makeWorldobjects(mapData)
@@ -96,10 +138,10 @@ function Level:setStatics(statics)
     if object == 5 then
       --== Portal -> Set start Location
       gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
-      local static = Portal(x,y, 'purple')
+      local static = Portal(x,y, 'purple', 'home')
       table.insert(self.statics, static)
     elseif object == 6 then
-      local static = Portal(x,y, 'green')
+      local static = Portal(x,y, 'green', 'home', 'caves')
       table.insert(self.statics, static)
     end
   end
