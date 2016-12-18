@@ -7,8 +7,8 @@ function Player:initialize()
   self.type = 'player'
   self.width = 12
   self.height = 12
-  self.x = gamestate.spawnLocation.x * 16
-  self.y = gamestate.spawnLocation.y * 16
+  self.x = gamestate.destinations.home.x
+  self.y = gamestate.destinations.home.y 
   self.xVel = 0
   self.yVel = 0
   self.speed = 20
@@ -19,6 +19,7 @@ function Player:initialize()
   self.inputEnabled = true
   self.isFloating   = false
   self.floatingStartPos = self.x
+  self.destination      = {x = 1, y = 1}
   --== Movement
   self.direction      = 'right'
   self.moving         = false;
@@ -42,12 +43,13 @@ end
 function Player:update(dt)
   if self.inputEnabled == true and self.isFloating == false then
     self:handleInput(dt)
+    self:move(dt)
+    self:checkSurroundingsForFragments(dt)
+
   elseif self.inputEnabled == false and self.isFloating == true then
     self:float(dt)
   end
 
-  self:move(dt)
-  self:checkSurroundingsForFragments(dt)
 
   walkingLeft:update(dt)
   walkingRight:update(dt)
@@ -124,6 +126,7 @@ function Player:draw()
 end
 
 playerFilter = function(item, other)
+  if item.isFloating then return 'cross' end
   if other.isPlatform then return 'slide'
   elseif other.isFragment then return 'cross'
   elseif other.isPortal then return 'cross'
@@ -333,18 +336,26 @@ end
 
 
 function Player:float(dt)
-  self.yVel = -0.5
-  if self.floatingStartPos - self.y > 16 then
-    self.yVel = 0
-    self.x = gamestate.spawnLocation.x
+  goalX = gamestate.destinations[self.destination].x
+  goalY = gamestate.destinations[self.destination].y
+
+  self.x = goalX - self.x * dt
+  self.y = goalY - self.y * dt
+
+  world:update(self, self.x, self.y)
+
+  if goalX - self.x < 10 and goalY - self.y < 10 then
+    self:toggleFloat(false)
   end
+
 end
 
-function Player:toggleFloat(value)
+function Player:toggleFloat(value, destination)
   if value == true then
     self.inputEnabled = false
     self.isFloating   = true
-    self.floatingStartPos = self.y
+    self.destination = destination
+    print("Destination Coords: " .. gamestate.destinations[destination].x .. ': ' .. gamestate.destinations[destination].y)
   else
     self.inputEnabled = true
     self.isFloating   = false

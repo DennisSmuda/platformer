@@ -8,7 +8,10 @@ local Game = state:new()
 
 --== Globals
 gamestate = {
-  spawnLocation = { x = 2, y = 2}
+  destinations  = {
+    home  = { x = 2, y = 2},
+    caves = { x = 1, y = 1},
+  }
 }
 
 
@@ -21,14 +24,12 @@ function Game.load (args)
   local vignette  = shine.vignette()
   vignette.parameters = {radius = 0.5, opacity = 0.3}
   post_effect = scanlines:chain(grain):chain(vignette)
-  -- post_effect = scanlines:chain(grain)
 
 
   --== Setup Game World
   world = bump.newWorld(8)
+  
   level = Level()
-  -- level = Level('cave')
-
   player = Player()
   -- cloud = Cloud()
 

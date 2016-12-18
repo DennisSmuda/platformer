@@ -35,8 +35,6 @@ function Level:makeCaves()
       y = y - 1
     end
 
-    y = y + 200
-
     -- print(i .. ': ' .. x .. ':' .. y .. ': ' .. object)
 
     if object == 3 then
@@ -45,6 +43,8 @@ function Level:makeCaves()
     elseif object == 5 then
       local static = Portal(x,y, 'green', 'caves')
       table.insert(self.statics, static)
+      gamestate.destinations.caves.x = x*16
+      gamestate.destinations.caves.y = y*16
       -- gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
     elseif object == 6 then
       local static = Portal(x,y, 'purple', 'caves', 'home')
@@ -137,8 +137,9 @@ function Level:setStatics(statics)
 
     if object == 5 then
       --== Portal -> Set start Location
-      gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
+      gamestate.destinations.home.x, gamestate.destinations.home.y = x*16, y*16
       local static = Portal(x,y, 'purple', 'home')
+      print("Home Coords: " .. x .. ': ' .. y)
       table.insert(self.statics, static)
     elseif object == 6 then
       local static = Portal(x,y, 'green', 'home', 'caves')

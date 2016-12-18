@@ -15,7 +15,6 @@ function Tile:initialize(x,y, type)
   else self.type = 0 end
 
 
-
   --== Check validity and set variables accordingly
   if self.type then
     if self.type > 0 then
