@@ -28,6 +28,7 @@ end
 function Level:makeCaves()
   local width, height = 50, 100
   mapData = self.levelGenerator.generateCaves(width, height)
+  print(#mapData)
 
   for i,object in ipairs(mapData) do
     local x,y = i%width, math.floor(i/width)
@@ -38,7 +39,7 @@ function Level:makeCaves()
 
     y = y + 1000
 
-    -- print(i .. ': ' .. x .. ':' .. y .. ': ' .. object)
+    print(i .. ': ' .. x .. ':' .. y .. ': ' .. object)
 
     if object == 3 then
       local tile = self.tileFactory.makeTile(x,y, object)

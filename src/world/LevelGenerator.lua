@@ -5,50 +5,47 @@ function LevelGenerator:initialize()
 
 end
 
-function checkSurroundingTiles(data, width, i)
-  local count = 0
-  if data[i+1] ~= 0 then count = count+1 end
-  if data[i-1] ~= 0 then count = count+1 end
-  if data[i+1-width] ~= 0 then count = count+1 end
-  if data[i-1-width] ~= 0 then count = count+1 end
-  if data[i-width] ~= 0 then count = count+1 end
-  if data[i+width] ~= 0 then count = count+1 end
-  if data[i+1+width] ~= 0 then count = count+1 end
-  if data[i-1+width] ~= 0 then count = count+1 end
+function initializeGrid(width, height)
+  local grid = {}
+  for i=1,width do
+    grid[i] = {}
 
-  if count >= 5 then
-    return true
-  else
-    return false
+    for j=1,height do
+      grid[i][j] = 3
+    end
+
   end
 
+  grid[1][1] = 5
+  grid[4][1] = 6
+
+  return grid
 end
+
+function convertGridToData(grid)
+  local data = {}
+  for i,col in ipairs(grid) do
+    for j,row in ipairs(grid) do
+      table.insert(data, grid[j][i])
+    end
+  end
+
+  return data
+end
+
 
 function LevelGenerator.generateCaves(width, height)
   local generations = 15
   local len = width * height
   local mapData = {}
 
-  --== Fill array 50% blocks
-  for i=1,len do
-    local rand = love.math.random()
-    if rand < 0.3 then
-      table.insert(mapData, 3)
-    else
-      table.insert(mapData, 0)
-    end
-  end
+  local grid = initializeGrid(width, height)
+  local data = convertGridToData(grid)
 
-  for i=1, generations do
 
-    for i=1,len do
-      local check = checkSurroundingTiles(mapData, width, i)
-      if check == true then
-        print("Checked")
-        mapData[i] = 3
-      end
-    end
-
+  --== Clear First Row
+  for i=1,width do
+    mapData[i] = 0
   end
 
   --== Insert Portal (5=in/6=out)
@@ -66,21 +63,6 @@ function LevelGenerator.generateCaves(width, height)
   mapData[8+width] = 3
   mapData[9+width] = 3
 
-  return mapData
-
-
-  -- return {
-  --   3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-  --   3, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-  --   3, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-  --   3, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-  --   3, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-  --   3, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-  --   3, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-  --   3, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-  --   3, 0, 5, 0, 4, 0, 0, 6, 0, 3,
-  --   3, 3, 3, 3, 3, 3, 3, 3, 3, 3
-  -- }
-
+  return data
 
 end
