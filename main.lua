@@ -85,7 +85,7 @@ function loadGraphics()
   grassQuad       = love.graphics.newQuad(18, 0, 18, 18, tileset:getDimensions())
   earthQuad       = love.graphics.newQuad(36, 0, 18, 18, tileset:getDimensions())
   earthEmptyQuad  = love.graphics.newQuad(36, 18, 18, 18, tileset:getDimensions())
-  ladderQuad      = love.graphics.newQuad(18, 18, 18, 18, tileset:getDimensions())
+  boundaryBlockQuad = love.graphics.newQuad(0, 18, 18, 18, tileset:getDimensions())
 
   --== TODO: Fragmentset doesnt work, instead uses tileset..
   fragment_set      = love.graphics.newImage("assets/img/fragmentset.png")

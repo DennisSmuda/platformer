@@ -15,9 +15,9 @@ function Fragment:initialize(x, y, type)
   self.isGrounded = false
 
 
-  if self.type == 1 then
+  if self.type == 53 then
     self.image = blockFragmentQuad
-  elseif self.type == 2 or self.type == 3 or self.type == 7 then
+  elseif self.type == 51 or self.type == 52 or self.type == 54 then
     self.image = earthFragmentQuad
   end
 

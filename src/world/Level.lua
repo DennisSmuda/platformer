@@ -26,7 +26,7 @@ function Level:initialize(type)
 end
 
 function Level:makeCaves()
-  local width, height = 50, 100
+  local width, height = 30, 30
   mapData = self.levelGenerator.generateCaves(width, height)
   print(#mapData)
 
@@ -37,11 +37,11 @@ function Level:makeCaves()
       y = y - 1
     end
 
-    y = y + 1000
+    y = y + 500
 
-    print(i .. ': ' .. x .. ':' .. y .. ': ' .. object)
+    -- print(i .. ': ' .. x .. ':' .. y .. ': ' .. object)
 
-    if object == 3 then
+    if object > 50 then
       local tile = self.tileFactory.makeTile(x,y, object)
       table.insert(self.worldObjects, tile)
     elseif object == 5 then
@@ -105,6 +105,9 @@ function Level:makeWorldobjects(mapData)
       y = y - 1
     end
 
+    if tileType == 1 then tileType = 53
+    elseif tileType == 2 then tileType = 52
+    elseif tileType == 3 then tileType = 51 end
     local tile = self.tileFactory.makeTile(x,y, tileType)
     table.insert(self.worldObjects, tile)
   end

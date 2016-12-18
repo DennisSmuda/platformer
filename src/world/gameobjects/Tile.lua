@@ -9,6 +9,7 @@ function Tile:initialize(x,y, type)
   self.height = 16
   self.type = type
   self.health = 5
+  self.destructible = true
   self.padding = 1 -- tileset padding to prevent 'bleeding'
 
   if self.type then
@@ -22,13 +23,16 @@ function Tile:initialize(x,y, type)
       self.isPlatform = true
     end
 
-    if self.type == 1 then
-      self.image = blockQuad
-    elseif self.type == 2 then
-      self.image = grassQuad
-    elseif self.type == 3 then
+    if self.type == 51 then
       self.image = earthQuad
-    elseif self.type == 7 then
+    elseif self.type == 52 then
+      self.image = grassQuad
+    elseif self.type == 53 then
+      self.image = blockQuad
+    elseif self.type == 54 then
+      self.image = boundaryBlockQuad
+      self.destructible = false
+    elseif self.type == 55 then
       self.image = earthEmptyQuad
     end
   end
@@ -57,6 +61,8 @@ function Tile:draw ()
       self.image = earthEmptyQuad
     end
   end
+
+  -- love.graphics.print(self.x .. ":" .. self.y, self.x, self.y)
 
 end
 
