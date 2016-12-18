@@ -7,7 +7,9 @@ made with [löve](http://www.love2d.org)
 ## Features
 ![screen-gif](screen.gif)
 
+### Exploring
+![exploring-gif](exploring.gif)
 ### Running and Jumping
 ![running-gif](running.gif)
-### Shooting 
+### Shooting
 ![shooting-gif](shooting.gif)

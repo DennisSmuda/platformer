@@ -26,12 +26,13 @@ function Level:initialize(type)
 end
 
 function Level:makeCaves()
-  mapData = self.levelGenerator.generateCaves(10, 10)
+  local width, height = 50, 100
+  mapData = self.levelGenerator.generateCaves(width, height)
 
   for i,object in ipairs(mapData) do
-    local x,y = i%10, math.floor(i/10)
+    local x,y = i%width, math.floor(i/width)
     if x == 0 then
-      x = 10
+      x = width
       y = y - 1
     end
 
