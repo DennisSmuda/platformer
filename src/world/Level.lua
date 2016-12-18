@@ -35,6 +35,8 @@ function Level:makeCaves()
       y = y - 1
     end
 
+    y = y + 1000
+
     -- print(i .. ': ' .. x .. ':' .. y .. ': ' .. object)
 
     if object == 3 then

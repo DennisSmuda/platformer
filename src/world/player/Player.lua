@@ -8,7 +8,7 @@ function Player:initialize()
   self.width = 12
   self.height = 12
   self.x = gamestate.destinations.home.x
-  self.y = gamestate.destinations.home.y 
+  self.y = gamestate.destinations.home.y
   self.xVel = 0
   self.yVel = 0
   self.speed = 20
