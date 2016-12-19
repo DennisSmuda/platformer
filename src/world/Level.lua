@@ -26,7 +26,7 @@ function Level:initialize(type)
 end
 
 function Level:makeCaves()
-  local width, height = 30, 30
+  local width, height = 7, 7
   mapData = self.levelGenerator.generateCaves(width, height)
   print(#mapData)
 

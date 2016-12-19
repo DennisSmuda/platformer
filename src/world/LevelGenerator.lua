@@ -60,12 +60,12 @@ function makeBounds(grid, width, height)
   return grid
 end
 
-function makePortalRoom(grid, type)
+function makePortalRoom(grid, type, width, height)
   local x, y
   if type == 5 then -- Top Right beginning
-    x, y = love.math.random(3,10), love.math.random(5,10)
+    x, y = 3,3
   elseif type == 6 then
-    x, y = love.math.random(20,30), love.math.random(5,10)
+    x, y = width-3,height-1
   end
 
   --== Occupies 3x3 Tilespace, clear 2x3 on top, and set boundary on the ground.
@@ -90,7 +90,7 @@ function LevelGenerator.generateCaves(width, height)
   local emptygrid = initializeGrid(width, height)
   local boundedgrid = makeBounds(emptygrid, width, height)
   makePortalRoom(boundedgrid, 5)
-  makePortalRoom(boundedgrid, 6)
+  makePortalRoom(boundedgrid, 6, width, height)
   --== Start/Finish Locations
   -- boundedgrid[1][1] = 5
   -- boundedgrid[4][1] = 6
