@@ -78,6 +78,10 @@ function Pistol:drawOnOwner()
     love.graphics.draw(blaster_right, self.owner.x+self.xOff, self.owner.y+self.yOff)
   elseif self.direction == 'left' then
     love.graphics.draw(blaster_left, self.owner.x+self.xOff, self.owner.y+self.yOff)
+  elseif self.direction == 'down' then
+    love.graphics.rotate( 90 )
+    love.graphics.draw(blaster_left, self.owner.x+self.xOff, self.owner.y+self.yOff)
+    love.graphics.rotate( -90 )
   end
 end
 
@@ -98,6 +102,7 @@ function Pistol:handleInput(dt)
     self:shoot('left')
 
   elseif love.keyboard.isDown('down') and self.canShoot == true then
+    self.direction = 'down'
     self:shoot('down')
 
   elseif love.keyboard.isDown('up') and self.canShoot == true then

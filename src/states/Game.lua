@@ -72,9 +72,9 @@ function Game.draw()
 
     camera:attach()
 
-      level:drawStatics()
       level:drawTiles()
-
+      level:drawStatics()
+      
       player:draw()
       -- platform:draw()
       level:drawCollectibles()

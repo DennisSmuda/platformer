@@ -116,5 +116,6 @@ function loadGraphics()
   jumpRight       = anim8.newAnimation(playerG('1-2', 3), 0.2)
   jumpLeft        = anim8.newAnimation(playerG('3-4', 3), 0.2)
   floating        = anim8.newAnimation(playerG('5-5', 3), 0.2)
+  downing         = anim8.newAnimation(playerG('1-1', 4), 0.2)
 
 end

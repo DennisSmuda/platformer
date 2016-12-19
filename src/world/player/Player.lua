@@ -123,6 +123,7 @@ function Player:draw()
   end
 
 
+
 end
 
 playerFilter = function(item, other)
@@ -291,10 +292,7 @@ function Player:handleInput(dt)
 
 
   if love.keyboard.isDown("a") then
-
-    if self.direction ~= 'left' then
-      self.direction = 'left'
-    end
+    self.direction = 'left'
     self.xVel = self.xVel - self.speed*dt
 
     if self.isOnRightWall == true then
@@ -332,6 +330,7 @@ function Player:handleInput(dt)
   if love.keyboard.isDown("right") then
     self.direction = 'right'
   end
+
 
 end
 

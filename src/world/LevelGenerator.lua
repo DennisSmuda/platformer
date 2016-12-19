@@ -33,20 +33,12 @@ end
 
 function makeBounds(grid, width, height)
   local grid = grid
-  print("height : " .. height )
 
   for i=1,width do
-
     for j=1,height do
 
-      if j == 1 then
+      if j == 1 or j == height then
         grid[i][j] = 54
-      end
-
-      if j == height then
-        print("last row: " .. i .. ':' ..j .. ' :: ' .. grid[i][j])
-        grid[i][j] = 54
-        print("last row: " .. i .. ':' ..j .. ' :: ' .. grid[i][j])
       end
 
       if i == 1 or i == width then
@@ -54,7 +46,6 @@ function makeBounds(grid, width, height)
       end
 
     end
-
   end
 
   return grid
