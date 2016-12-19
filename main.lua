@@ -42,10 +42,12 @@ function love.load()
   -- love.graphics.setBackgroundColor(95, 205, 228)
 
 
-  font = love.graphics.newFont("assets/fonts/slkscr.ttf", 8)
+  font = love.graphics.newFont("assets/fonts/slkscr.ttf", 30)
+  game_font = love.graphics.newFont("assets/fonts/slkscr.ttf", 8)
   font:setFilter("nearest", "nearest")
+  game_font:setFilter("nearest", "nearest")
   -- print(font:getFilter())
-  love.graphics.setFont(font)
+  love.graphics.setFont(game_font)
 
   loadGraphics()
 

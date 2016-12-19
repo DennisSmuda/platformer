@@ -3,11 +3,10 @@
 Inventory = class('Inventory')
 
 function Inventory:initialize()
-  self.size     = 2
+  self.size     = 10
   self.numItems = 0
-  self.items = {}
-  self.activeItem = 1
-
+  self.items    = {}
+  self.active   = false
 
   self.xOff = love.graphics.getWidth()/5.8
   self.yOff = love.graphics.getHeight()/7.5
@@ -19,17 +18,14 @@ function Inventory:update(dt)
 end
 
 function Inventory:draw()
-  for i=1,self.size do
+  if self.active == false then return end
 
-    if i == self.activeItem then
-      love.graphics.setColor(255, 0, 0, 128)
-    else
-      love.graphics.setColor(255, 255, 255, 128)
-    end
-    love.graphics.draw(inventoryFrame_img, camera.x-self.xOff + (i*24), camera.y-self.yOff)
-    love.graphics.print(tostring(i), camera.x-self.xOff + (i*24)+1, camera.y-self.yOff+1)
-    love.graphics.setColor(255, 255, 255, 255)
-  end
+  love.graphics.setColor(255, 0, 0, 128)
+  love.graphics.setColor(255, 255, 255, 128)
+  love.graphics.rectangle("fill", camera.x-self.xOff, camera.y-self.yOff, 120, 120)
+  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.printf("Inventory", camera.x-self.xOff, camera.y-self.yOff + 4, 120, 'center')
+
 
   for i,item in ipairs(self.items) do
     love.graphics.draw(item.inventoryImg, camera.x-self.xOff + (i*28), camera.y-self.yOff+6)
@@ -41,4 +37,12 @@ function Inventory:addItem(item)
 
   table.insert(self.items, item)
 
+end
+
+function Inventory:toggle()
+  if self.active == true then
+    self.active = false
+  else
+    self.active = true
+  end
 end

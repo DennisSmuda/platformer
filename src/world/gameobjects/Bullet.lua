@@ -12,7 +12,8 @@ function Bullet:initialize(x, y, dir)
   self.image  = bullet_img
   self.width  = 4
   self.height = 4
-  self.speed  = 0
+  self.speedX  = 0
+  self.speedY  = 0
   self.active = true
 
   self.explosionG = anim8.newGrid(18,18, explosionset:getDimensions())
@@ -33,13 +34,25 @@ function Bullet:initialize(x, y, dir)
 
 
   if self.dir == 'right' then
-    self.speed  = 150
     self.xOff   = 12
+    self.yOff   = 2
+    self.speedX  = 150
     self.psystem:setLinearAcceleration(-400, -100, -500, 100) -- Random movement in all directions.
   elseif self.dir == 'left' then
-    self.speed  = -150
     self.xOff   = -12
+    self.yOff   = 2
+    self.speedX  = -150
     self.psystem:setLinearAcceleration(400, -100, 500, 100) -- Random movement in all directions.
+  elseif self.dir == 'down' then
+    self.speedY  = 150
+    self.yOff    = 6
+    self.xOff    = 2
+    self.psystem:setLinearAcceleration(-100, 400, 100, 500) -- Random movement in all directions.
+  elseif self.dir == 'up' then
+    self.speedY  = -150
+    self.yOff    = -6
+    self.xOff    = 8
+    self.psystem:setLinearAcceleration(-100, 400, 100, 500) -- Random movement in all directions.
   end
   world:add(self, self.x+self.xOff, self.y+self.yOff, self.width, self.height)
 end
@@ -63,8 +76,13 @@ function Bullet:update(dt)
 
 
   --== Move Bullet
-  -- local goalX = (self.x+self.xOff) + self.speed*dt
-  local goalX, goalY = self.x+ self.speed*dt, self.y + self.spread*dt
+  local goalX, goalY
+  if self.speedX ~= 0 then --== Bullet moves either horizontally or vertically
+    goalX, goalY = self.x + self.speedX*dt, self.y + self.spread*dt
+  else
+    goalX, goalY = self.x + self.spread*dt, self.y + self.speedY*dt
+  end
+
   local actualX, actualY, cols, len = world:move(self, goalX, goalY, BulletFilter)
 
   self.x = actualX

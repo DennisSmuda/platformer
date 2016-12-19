@@ -92,17 +92,16 @@ function Pistol:handleInput(dt)
 
   --== Shoot Bullets Left/Right
   if love.keyboard.isDown('right') and self.canShoot == true then
-
-    self.canShoot = false
-    self.lastShot = love.timer.getTime()
     self:shoot('right')
 
   elseif love.keyboard.isDown('left') and self.canShoot == true then
-
-    self.canShoot = false
-    self.lastShot = love.timer.getTime()
     self:shoot('left')
 
+  elseif love.keyboard.isDown('down') and self.canShoot == true then
+    self:shoot('down')
+
+  elseif love.keyboard.isDown('up') and self.canShoot == true then
+    self:shoot('up')
   end
 end
 
@@ -111,13 +110,14 @@ function Pistol:handlePassiveInput(dt)
     self.xOff = 1
     self.yOff = 5
     self.owner = player
-    self.owner.inventory:addItem(self)
     world:remove(self)
   end
 
 end
 
 function Pistol:shoot(dir)
+    self.canShoot = false
+    self.lastShot = love.timer.getTime()
   -- Recoil for player and gun
   if dir == 'left' then
     self.xOff = self.xOff+3
@@ -125,6 +125,10 @@ function Pistol:shoot(dir)
   elseif dir == 'right' then
     self.xOff = self.xOff-3
     self.owner.xVel = self.owner.xVel - 1.5
+  elseif dir == 'down' then
+    self.owner.yVel = self.owner.yVel - 1.5
+  elseif dir == 'up' then
+    self.owner.yVel = self.owner.yVel + 1.5
   end
 
   -- print("Shoot : " .. dir)

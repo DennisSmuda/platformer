@@ -20,6 +20,7 @@ function Menu.load()
   currentlyActive = 1
 
   screenW, screenH = love.graphics.getDimensions()
+  love.graphics.setFont(font)
 
 end
 

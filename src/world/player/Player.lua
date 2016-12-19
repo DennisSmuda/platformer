@@ -332,6 +332,7 @@ function Player:handleInput(dt)
   if love.keyboard.isDown("right") then
     self.direction = 'right'
   end
+
 end
 
 

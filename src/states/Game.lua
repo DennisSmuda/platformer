@@ -25,10 +25,12 @@ function Game.load (args)
   vignette.parameters = {radius = 0.5, opacity = 0.3}
   post_effect = scanlines:chain(grain):chain(vignette)
 
+  love.graphics.setFont(game_font)
+
 
   --== Setup Game World
   world = bump.newWorld(8)
-  
+
   level = Level()
   player = Player()
   -- cloud = Cloud()
@@ -70,13 +72,13 @@ function Game.draw()
 
     camera:attach()
 
-
       level:drawStatics()
       level:drawTiles()
 
       player:draw()
       -- platform:draw()
       level:drawCollectibles()
+      player:drawInventory()
 
     camera:detach()
 
@@ -89,6 +91,7 @@ end
 function love.keypressed(key, scancode, isrepeat)
   if key == "escape" then state:switch("src.states.Menu") end
 
+  if key == "tab" then player.inventory:toggle() end
 
 end
 
