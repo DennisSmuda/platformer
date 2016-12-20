@@ -25,6 +25,7 @@ function Tile:initialize(x,y, type)
 
     if self.type == 51 then
       self.image = earthQuad
+      self.health = love.math.random(3,5)
     elseif self.type == 52 then
       self.image = grassQuad
     elseif self.type == 53 then
@@ -73,6 +74,7 @@ end
 
 
 function Tile:takeDamage(amount)
+  if self.destructible == false then return end
   self.health = self.health - amount
 
   if self.health == 0 then

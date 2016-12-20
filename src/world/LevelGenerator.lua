@@ -2,20 +2,24 @@
 LevelGenerator = class('LevelGenerator')
 
 function LevelGenerator:initialize()
-
 end
 
-function initializeGrid(width, height)
+function initializeGrid(width, height, chance)
   local grid = {}
   for i=1,width do
     grid[i] = {}
 
     for j=1,height do
-      grid[i][j] = 51
+
+      local rand = love.math.random()
+      if rand > chance/100 then
+        grid[i][j] = 51
+      else
+        grid[i][j] = 0
+      end
+
     end
-
   end
-
 
   return grid
 end
@@ -30,6 +34,7 @@ function convertGridToData(grid)
 
   return data
 end
+
 
 function makeBounds(grid, width, height)
   local grid = grid
@@ -51,7 +56,8 @@ function makeBounds(grid, width, height)
   return grid
 end
 
-function makePortalRoom(grid, type, width, height)
+
+function makePortalRoomInCorner(grid, type, width, height)
   local x, y
   if type == 5 then -- Top Right beginning
     x, y = 3,3
@@ -70,43 +76,77 @@ function makePortalRoom(grid, type, width, height)
   grid[x+1][y+1] = 54
   grid[x-1][y+1] = 54
 
+  return grid
+
+end
+
+--== Returns true if the current tile is surrounded by more than 5 walls
+function checkSurroundingTiles(grid, x, y, width, height)
+  local count = 0
+
+  if x > 1 and y > 1 then
+    if grid[x-1][y-1] ~= 0 then count = count+1 end
+  end
+  if x < width and y < height then
+    if grid[x+1][y+1] ~= 0 then count = count+1 end
+  end
+  if y > 1 then
+    if grid[x  ][y-1] ~= 0 then count = count+1 end
+  end
+  if x > 1 then
+    if grid[x-1][y  ] ~= 0 then count = count+1 end
+  end
+  if x < width and y > 1 then
+    if grid[x+1][y-1] ~= 0 then count = count+1 end
+  end
+  if x < width then
+    if grid[x+1][y  ] ~= 0 then count = count+1 end
+  end
+  if x > 1 and y < height then
+    if grid[x-1][y+1] ~= 0 then count = count+1 end
+  end
+  if y < height then
+    if grid[x  ][y+1] ~= 0 then count = count+1 end
+  end
+
+
+  if count >= 5 then
+    return true
+  else
+    return false
+  end
+end
+
+function cellularAutomata(grid, width, height)
+  -- 10 Generations
+  for i=1,3 do
+    for i=1,width do
+      for j=1,height do
+
+        if checkSurroundingTiles(grid, i, j, width, height) == true then
+          print("BUTZ")
+          grid[i][j] = 51
+        end
+
+      end
+    end
+  end
+
+  return grid
 end
 
 
 function LevelGenerator.generateCaves(width, height)
-  local generations = 15
   local len = width * height
-  local mapData = {}
 
-  local emptygrid = initializeGrid(width, height)
-  local boundedgrid = makeBounds(emptygrid, width, height)
-  makePortalRoom(boundedgrid, 5)
-  makePortalRoom(boundedgrid, 6, width, height)
+  local emptygrid = initializeGrid(width, height, 65) --== 80% empty initial spawn
+  local cellulargrid = cellularAutomata(emptygrid, width, height)
+  local boundedgrid = makeBounds(cellulargrid, width, height)
   --== Start/Finish Locations
-  -- boundedgrid[1][1] = 5
-  -- boundedgrid[4][1] = 6
+  makePortalRoomInCorner(boundedgrid, 5)
+  makePortalRoomInCorner(boundedgrid, 6, width, height)
+  --== Convert to 1D
   local data = convertGridToData(boundedgrid)
-
-
-  --== Clear First Row
-  for i=1,width do
-    mapData[i] = 0
-  end
-
-  --== Insert Portal (5=in/6=out)
-  mapData[1] = 0
-  mapData[2] = 5
-  mapData[3] = 0
-  mapData[1+width] = 3
-  mapData[2+width] = 3
-  mapData[3+width] = 3
-
-  mapData[7] = 0
-  mapData[8] = 6
-  mapData[9] = 0
-  mapData[7+width] = 3
-  mapData[8+width] = 3
-  mapData[9+width] = 3
 
   return data
 

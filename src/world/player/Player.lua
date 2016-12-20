@@ -355,7 +355,6 @@ function Player:toggleFloat(value, destination)
     self.inputEnabled = false
     self.isFloating   = true
     self.destination = destination
-    print("Destination Coords: " .. gamestate.destinations[destination].x .. ': ' .. gamestate.destinations[destination].y)
   else
     self.inputEnabled = true
     self.isFloating   = false

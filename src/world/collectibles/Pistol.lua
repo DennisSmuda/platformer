@@ -88,11 +88,7 @@ end
 
 function Pistol:handleInput(dt)
   local now = love.timer.getTime()
-  -- print("Handle Input: " .. self.lastShot .. tostring(self.canShoot) )
   self.canShoot = now - self.lastShot > self.shotDelay
-  if self.owner.isOnLeftWall or self.owner.isOnRightWall then
-    self.canShoot = false
-  end
 
   --== Shoot Bullets Left/Right
   if love.keyboard.isDown('right') and self.canShoot == true then

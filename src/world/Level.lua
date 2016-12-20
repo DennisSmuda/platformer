@@ -25,21 +25,16 @@ function Level:initialize(type)
 
 end
 
-function Level:makeCaves()
-  local width, height = 7, 7
-  mapData = self.levelGenerator.generateCaves(width, height)
-  print(#mapData)
-
-  for i,object in ipairs(mapData) do
+function Level:makeObjects(map, width, height, xOff, yOff)
+  for i,object in ipairs(map) do
     local x,y = i%width, math.floor(i/width)
     if x == 0 then
       x = width
       y = y - 1
     end
 
-    y = y + 500
-
-    -- print(i .. ': ' .. x .. ':' .. y .. ': ' .. object)
+    x = x + xOff
+    y = y + yOff
 
     if object > 50 then
       local tile = self.tileFactory.makeTile(x,y, object)
@@ -49,17 +44,26 @@ function Level:makeCaves()
       table.insert(self.statics, static)
       gamestate.destinations.caves.x = x*16
       gamestate.destinations.caves.y = y*16
-      -- gamestate.spawnLocation.x, gamestate.spawnLocation.y = x, y
     elseif object == 6 then
       local static = Portal(x,y, 'purple', 'caves', 'home')
       table.insert(self.statics, static)
     elseif object == 4 then
       local collectible = Pistol(x,y)
       table.insert(self.collectibles, collectible)
-
     end
-    -- body...
   end
+end
+
+
+function Level:makeCaves()
+  local width, height = 50, 25
+  mapData = self.levelGenerator.generateCaves(width, height)
+
+
+
+  self:makeObjects(mapData, width, height, 0, 500)
+
+
 
 end
 
@@ -67,6 +71,7 @@ function Level:reset()
   player:toggleFloat(true)
 
 end
+
 
 function Level:setupStaticLevel()
   tilelayers = require("assets.data.testlevel_1")["layers"]
