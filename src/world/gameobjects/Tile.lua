@@ -54,9 +54,21 @@ end
 function Tile:spawnOre()
   local rand = love.math.random()
 
-  if rand < 0.9 then -- 10% Chance stone
+  if rand < 0.4 then -- 10% Chance stone
     self.oreImg = stoneOreQuad
     self.oreType = 'stone'
+  elseif rand < 0.65 then
+    self.oreImg = ironOreQuad
+    self.oreType = 'iron'
+  elseif rand < 0.75 then
+    self.oreImg = copperOreQuad
+    self.oreType = 'copper'
+  elseif rand < 0.85 then
+    self.oreImg = silverOreQuad
+    self.oreType = 'silver'
+  elseif rand < 0.95 then
+    self.oreImg = goldOreQuad
+    self.oreType = 'gold'
   end
 
 end

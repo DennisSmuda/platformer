@@ -2,8 +2,8 @@
 Ore = class('Ore')
 
 function Ore:initialize(x, y, type)
-  self.x = x
-  self.y = y
+  self.x = x+8
+  self.y = y+8
   self.width = 3
   self.height = 3
   self.type = type
@@ -16,8 +16,17 @@ function Ore:initialize(x, y, type)
   self.img = nil
 
   if self.type == 'stone' then
-    self.img = stoneore_img
+    self.img = stoneOre_img
+  elseif self.type == 'iron' then
+    self.img = ironOre_img
+  elseif self.type == 'copper' then
+    self.img = copperOre_img
+  elseif self.type == 'silver' then
+    self.img = silverOre_img
+  elseif self.type == 'gold' then
+    self.img = goldOre_img
   end
+
 
   world:add(self, self.x, self.y, self.width, self.height)
 end
@@ -42,10 +51,8 @@ function Ore:update(dt)
     local normal = cols[i].normal
 
     if normal.y == -1 then
-      -- print("Fragment Hit Ground")
       self.grounded = true
     end
-
   end
 
   --== Gravity and Friction
@@ -59,6 +66,5 @@ function Ore:update(dt)
 end
 
 function Ore:draw()
-  print("Draw ORe")
   love.graphics.draw(self.img, self.x, self.y)
 end

@@ -79,7 +79,12 @@ function loadGraphics()
   stone_img     = love.graphics.newImage("assets/img/stone.png")
   cloud_img     = love.graphics.newImage("assets/img/cloud.png")
   heart_img     = love.graphics.newImage("assets/img/inventory_frame.png")
-  stoneore_img  = love.graphics.newImage("assets/img/stone_fragment.png")
+  -- Ores
+  stoneOre_img  = love.graphics.newImage("assets/img/stone_fragment.png")
+  ironOre_img   = love.graphics.newImage("assets/img/iron_fragment.png")
+  copperOre_img = love.graphics.newImage("assets/img/copper_fragment.png")
+  silverOre_img = love.graphics.newImage("assets/img/silver_fragment.png")
+  goldOre_img   = love.graphics.newImage("assets/img/gold_fragment.png")
 
   --== Tileset ===
   tileset     = love.graphics.newImage("assets/img/tileset.png")
@@ -94,11 +99,13 @@ function loadGraphics()
   blockFragmentQuad = love.graphics.newQuad(0, 0, 10, 10, fragment_set:getDimensions())
   earthFragmentQuad = love.graphics.newQuad(10, 0, 10, 10, fragment_set:getDimensions())
 
+  --== Ores
   oreset            = love.graphics.newImage("assets/img/ore_tileset.png")
   stoneOreQuad      = love.graphics.newQuad(0,0,16,16, oreset:getDimensions())
   copperOreQuad     = love.graphics.newQuad(16,0,16,16, oreset:getDimensions())
   silverOreQuad     = love.graphics.newQuad(32,0,16,16, oreset:getDimensions())
   goldOreQuad       = love.graphics.newQuad(48,0,16,16, oreset:getDimensions())
+
   ironOreQuad       = love.graphics.newQuad(0,16,16,16, oreset:getDimensions())
   rubyOreQuad       = love.graphics.newQuad(16,16,16,16, oreset:getDimensions())
   emeraldOreQuad    = love.graphics.newQuad(32,16,16,16, oreset:getDimensions())
