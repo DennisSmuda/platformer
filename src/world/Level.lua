@@ -5,6 +5,7 @@ require "src.world.gameobjects.Cloud"
 require "src.world.gameobjects.Portal"
 require "src.world.gameobjects.Ladder"
 require "src.world.gameobjects.Fragment"
+require "src.world.gameobjects.Ore"
 
 
 
@@ -37,7 +38,7 @@ function Level:makeObjects(map, width, height, xOff, yOff)
     y = y + yOff
 
     if object > 50 then
-      local tile = self.tileFactory.makeTile(x,y, object)
+      local tile = self.tileFactory.makeTile(x,y, object, 'caves')
       table.insert(self.worldObjects, tile)
     elseif object == 5 then
       local static = Portal(x,y, 'green', 'caves')
@@ -59,11 +60,7 @@ function Level:makeCaves()
   local width, height = 50, 25
   mapData = self.levelGenerator.generateCaves(width, height)
 
-
-
   self:makeObjects(mapData, width, height, 0, 500)
-
-
 
 end
 
@@ -113,7 +110,7 @@ function Level:makeWorldobjects(mapData)
     if tileType == 1 then tileType = 53
     elseif tileType == 2 then tileType = 52
     elseif tileType == 3 then tileType = 51 end
-    local tile = self.tileFactory.makeTile(x,y, tileType)
+    local tile = self.tileFactory.makeTile(x,y, tileType, 'home')
     table.insert(self.worldObjects, tile)
   end
 end
@@ -134,8 +131,6 @@ function Level:makeCollectibles(collectibles)
     end
   end
 
-  -- local col = Pistol(6, 18)
-  -- table.insert(self.collectibles, col)
 
 end
 
@@ -151,7 +146,6 @@ function Level:setStatics(statics)
       --== Portal -> Set start Location
       gamestate.destinations.home.x, gamestate.destinations.home.y = x*16, y*16
       local static = Portal(x,y, 'purple', 'home')
-      print("Home Coords: " .. x .. ': ' .. y)
       table.insert(self.statics, static)
     elseif object == 6 then
       local static = Portal(x,y, 'green', 'home', 'caves')
@@ -215,8 +209,8 @@ function Level:drawTiles()
 end
 
 
-function Level:spawnFragments(x, y, type, amount)
-  for i=1,amount do
+function Level:spawnFragments(x, y, type, amount, ore)
+  for i=1,amount/2 do
     local xOff, yOff = 1, 1
 
     if i == 2 then
@@ -229,6 +223,13 @@ function Level:spawnFragments(x, y, type, amount)
 
     local fragment = Fragment(x+xOff, y+yOff, type)
     table.insert(self.fragments, fragment)
+  end
+
+  for i=1,amount/2 do
+    if ore then
+      local oreFragment = Ore(x, y, ore)
+      table.insert(self.fragments, oreFragment)
+    end
   end
 
 end

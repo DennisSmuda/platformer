@@ -1,16 +1,20 @@
 
 Tile = class('Tile')
 
-function Tile:initialize(x,y, type)
+function Tile:initialize(x,y, type, location)
   self.WorldCoords = {x = x, y = y}
-  self.x = x*16
-  self.y = y*16
-  self.width = 16
-  self.height = 16
-  self.type = type
-  self.health = 5
+  self.x          = x*16
+  self.y          = y*16
+  self.width      = 16
+  self.height     = 16
+  self.type       = type
+  self.health     = 5
   self.destructible = true
-  self.padding = 1 -- tileset padding to prevent 'bleeding'
+  self.padding    = 1 -- tileset padding to prevent 'bleeding'
+  self.location   = location
+  self.fragments  = love.math.random(2,5)
+  self.oreImg     = nil
+  self.oreType    = nil
 
   if self.type then
   else self.type = 0 end
@@ -21,24 +25,39 @@ function Tile:initialize(x,y, type)
     if self.type > 0 then
       world:add(self, self.x+1, self.y+1, self.width, self.height)
       self.isPlatform = true
+      self:setImage()
     end
 
-    if self.type == 51 then
-      self.image = earthQuad
-      self.health = love.math.random(3,5)
-    elseif self.type == 52 then
-      self.image = grassQuad
-    elseif self.type == 53 then
-      self.image = blockQuad
-    elseif self.type == 54 then
-      self.image = boundaryBlockQuad
-      self.destructible = false
-    elseif self.type == 55 then
-      self.image = earthEmptyQuad
-    end
   end
 
+end
 
+function Tile:setImage()
+  if self.type == 51 then
+    self.image = earthQuad
+    if self.location ~= 'home' then
+      self.health = love.math.random(3,5)
+      self:spawnOre()
+    end
+  elseif self.type == 52 then
+    self.image = grassQuad
+  elseif self.type == 53 then
+    self.image = blockQuad
+  elseif self.type == 54 then
+    self.image = boundaryBlockQuad
+    self.destructible = false
+  elseif self.type == 55 then
+    self.image = earthEmptyQuad
+  end
+end
+
+function Tile:spawnOre()
+  local rand = love.math.random()
+
+  if rand < 0.9 then -- 10% Chance stone
+    self.oreImg = stoneOreQuad
+    self.oreType = 'stone'
+  end
 
 end
 
@@ -63,6 +82,10 @@ function Tile:draw ()
     end
   end
 
+  if self.oreType and self.health > 0 then
+    love.graphics.draw(oreset, self.oreImg, self.x+1, self.y+1)
+  end
+
   -- love.graphics.print(self.x .. ":" .. self.y, self.x, self.y)
 
 end
@@ -78,7 +101,7 @@ function Tile:takeDamage(amount)
   self.health = self.health - amount
 
   if self.health == 0 then
-    level:spawnFragments(self.x, self.y, self.type, 4)
+    level:spawnFragments(self.x, self.y, self.type, self.fragments, self.oreType)
     world:remove(self)
   end
 end

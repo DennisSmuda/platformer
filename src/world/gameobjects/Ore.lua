@@ -1,34 +1,28 @@
 
-Fragment = class('Fragment')
+Ore = class('Ore')
 
-function Fragment:initialize(x, y, type)
-  self.x      = x
-  self.y      = y
+function Ore:initialize(x, y, type)
+  self.x = x
+  self.y = y
+  self.width = 3
+  self.height = 3
+  self.type = type
   self.xVel   = love.math.random(-2, 2)
   self.yVel   = love.math.random(-1,-2.5)
   self.gravity = 9.81
-  self.type   = type
-  self.width  = 8
-  self.height = 8
-  self.isFragment = true
   self.friction = 3
+  self.isFragment = true
   self.isGrounded = false
+  self.img = nil
 
-
-  if self.type == 53 then
-    self.image = blockFragmentQuad
-  elseif self.type == 51 or self.type == 52 or self.type == 54 then
-    self.image = earthFragmentQuad
-  else
-    self.image = stoneore_img
-    self.width = 3
-    self.height= 3
+  if self.type == 'stone' then
+    self.img = stoneore_img
   end
 
   world:add(self, self.x, self.y, self.width, self.height)
 end
 
-function FragmentFilter(self, other)
+function OreFilter(self, other)
   if other.isFragment then return 'cross'
   elseif other.isPlayer then
     return 'cross'
@@ -37,7 +31,7 @@ function FragmentFilter(self, other)
   end
 end
 
-function Fragment:update(dt)
+function Ore:update(dt)
   local goalX, goalY = self.x+ self.xVel, self.y + self.yVel
   local actualX, actualY, cols, len = world:move(self, goalX, goalY, FragmentFilter)
 
@@ -62,8 +56,9 @@ function Fragment:update(dt)
   if self.grounded == true and self.yVel > self.gravity*0.5 then
     self.yVel = 0
   end
-
 end
-function Fragment:draw()
-  love.graphics.draw(fragment_set, self.image, self.x-1, self.y-1)
+
+function Ore:draw()
+  print("Draw ORe")
+  love.graphics.draw(self.img, self.x, self.y)
 end

@@ -79,24 +79,32 @@ function loadGraphics()
   stone_img     = love.graphics.newImage("assets/img/stone.png")
   cloud_img     = love.graphics.newImage("assets/img/cloud.png")
   heart_img     = love.graphics.newImage("assets/img/inventory_frame.png")
+  stoneore_img  = love.graphics.newImage("assets/img/stone_fragment.png")
 
   --== Tileset ===
   tileset     = love.graphics.newImage("assets/img/tileset.png")
 
-  blockQuad       = love.graphics.newQuad(0, 0, 18, 18, tileset:getDimensions())
-  grassQuad       = love.graphics.newQuad(18, 0, 18, 18, tileset:getDimensions())
-  earthQuad       = love.graphics.newQuad(36, 0, 18, 18, tileset:getDimensions())
-  earthEmptyQuad  = love.graphics.newQuad(36, 18, 18, 18, tileset:getDimensions())
+  blockQuad         = love.graphics.newQuad(0, 0, 18, 18, tileset:getDimensions())
+  grassQuad         = love.graphics.newQuad(18, 0, 18, 18, tileset:getDimensions())
+  earthQuad         = love.graphics.newQuad(36, 0, 18, 18, tileset:getDimensions())
+  earthEmptyQuad    = love.graphics.newQuad(36, 18, 18, 18, tileset:getDimensions())
   boundaryBlockQuad = love.graphics.newQuad(0, 18, 18, 18, tileset:getDimensions())
 
-  --== TODO: Fragmentset doesnt work, instead uses tileset..
   fragment_set      = love.graphics.newImage("assets/img/fragmentset.png")
   blockFragmentQuad = love.graphics.newQuad(0, 0, 10, 10, fragment_set:getDimensions())
   earthFragmentQuad = love.graphics.newQuad(10, 0, 10, 10, fragment_set:getDimensions())
 
-  playerset = love.graphics.newImage("assets/img/player.png")
-  playerG   = anim8.newGrid(12,12, playerset:getDimensions())
+  oreset            = love.graphics.newImage("assets/img/ore_tileset.png")
+  stoneOreQuad      = love.graphics.newQuad(0,0,16,16, oreset:getDimensions())
+  copperOreQuad     = love.graphics.newQuad(16,0,16,16, oreset:getDimensions())
+  silverOreQuad     = love.graphics.newQuad(32,0,16,16, oreset:getDimensions())
+  goldOreQuad       = love.graphics.newQuad(48,0,16,16, oreset:getDimensions())
+  ironOreQuad       = love.graphics.newQuad(0,16,16,16, oreset:getDimensions())
+  rubyOreQuad       = love.graphics.newQuad(16,16,16,16, oreset:getDimensions())
+  emeraldOreQuad    = love.graphics.newQuad(32,16,16,16, oreset:getDimensions())
 
+
+  --== Effects
   explosionset     = love.graphics.newImage("assets/img/explosion.png")
   block_damage_set = love.graphics.newImage("assets/img/block_break_frames.png")
   block_damage_1   = love.graphics.newQuad(0,0,16,16, block_damage_set:getDimensions())
@@ -106,6 +114,8 @@ function loadGraphics()
 
 
 
+  playerset = love.graphics.newImage("assets/img/player.png")
+  playerG   = anim8.newGrid(12,12, playerset:getDimensions())
   --== Player Animations
   walkingRight    = anim8.newAnimation(playerG('1-2', 1), 0.15)
   walkingLeft     = anim8.newAnimation(playerG('3-4', 1), 0.15)

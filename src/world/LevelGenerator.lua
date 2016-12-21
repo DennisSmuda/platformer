@@ -124,7 +124,6 @@ function cellularAutomata(grid, width, height)
       for j=1,height do
 
         if checkSurroundingTiles(grid, i, j, width, height) == true then
-          print("BUTZ")
           grid[i][j] = 51
         end
 
@@ -139,7 +138,7 @@ end
 function LevelGenerator.generateCaves(width, height)
   local len = width * height
 
-  local emptygrid = initializeGrid(width, height, 65) --== 80% empty initial spawn
+  local emptygrid = initializeGrid(width, height, 65) --== 65% empty initial spawn
   local cellulargrid = cellularAutomata(emptygrid, width, height)
   local boundedgrid = makeBounds(cellulargrid, width, height)
   --== Start/Finish Locations
