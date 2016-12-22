@@ -134,7 +134,13 @@ end
 playerFilter = function(item, other)
   if item.isFloating then return 'cross' end
   if other.isPlatform then return 'slide'
-  elseif other.isFragment then return 'cross'
+  elseif other.isFragment then
+    print("Fragment COllision")
+    if other.isPlaced == false then
+      return 'cross'
+    elseif other.isPlaced == true then
+      return 'slide'
+    end
   elseif other.isPortal then return 'cross'
   elseif other.isBullet then
      return 'cross'
@@ -292,6 +298,8 @@ function Player:handleInput(dt)
         self.yVel = -self.jumpForce
       end
     end
+
+
   end
 
 
@@ -366,5 +374,16 @@ function Player:toggleFloat(value, destination)
 
 end
 
+function Player:placeBlock()
+  local items, len = world:queryRect(self.x, self.y+16, 8, 8)
 
--- function Player:activeItem
+  if len == 0 then
+    print("Place that shit")
+
+    self.fragments[1]:place(self.x, self.y+16)
+    self.xVel = 0
+
+  end
+
+
+end

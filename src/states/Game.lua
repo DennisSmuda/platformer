@@ -74,7 +74,7 @@ function Game.draw()
 
       level:drawTiles()
       level:drawStatics()
-      
+
       player:draw()
       -- platform:draw()
       level:drawCollectibles()
@@ -92,6 +92,15 @@ function love.keypressed(key, scancode, isrepeat)
   if key == "escape" then state:switch("src.states.Menu") end
 
   if key == "tab" then player.inventory:toggle() end
+
+  if key == "space" then
+
+    if player.grounded == false and player.isOnRightWall == player.isOnLeftWall then
+      if player.fragmentCount > 0 then
+        player:placeBlock()
+      end
+    end
+  end
 
 end
 

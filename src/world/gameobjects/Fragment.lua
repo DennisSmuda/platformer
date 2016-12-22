@@ -14,10 +14,14 @@ function Fragment:initialize(x, y, type)
   self.fragmentCount = 0
   self.friction = 3
   self.isGrounded = false
-
+  self.health = 1
 
   self.pickupTarget = nil
+  self.placeLocationX = nil
+  self.placeLocationY = nil
+  self.isPlaced = false
   self.name = 'Empty'
+  self.isPlatform = false
 
 
   if self.type == 53 then
@@ -42,26 +46,36 @@ function FragmentFilter(self, other)
 end
 
 function Fragment:update(dt)
+  if self.isPlaced == true then return end
   --== When Item is getting picked up, make it fly towards left of
   --== the screen (Where Inventory is)
   if self.pickupTarget then
+    local xOff = 0
+    if self.pickupTarget.direction == 'left' then
+      xOff = -12
+    elseif self.pickupTarget.direction == 'right' then
+      xOff = 12
+    end
 
     if self.fragmentCount == 1 then
       --== First fragment follows player
-      local goalX, goalY = self.pickupTarget.x-6, self.pickupTarget.y-6
+      local goalX, goalY = self.pickupTarget.x-xOff, self.pickupTarget.y-6
       self.x = self.x + ((goalX - self.x)*0.05)
       self.y = self.y + ((goalY - self.y)*0.05)
       return
     else
-      local goalX = self.pickupTarget.fragments[self.fragmentCount-1].x-6
+      local goalX = self.pickupTarget.fragments[self.fragmentCount-1].x-xOff
       local goalY = self.pickupTarget.fragments[self.fragmentCount-1].y
       self.x = self.x + ((goalX - self.x)*0.05)
-      self.y = self.y + ((goalY - self.y)*0.05)
+      self.y = self.y + ((goalY - self.y)*0.1)
       return
     end
-
   end
 
+
+
+
+  --== Normal falling behavior
   local goalX, goalY = self.x+ self.xVel, self.y + self.yVel
   local actualX, actualY, cols, len = world:move(self, goalX, goalY, FragmentFilter)
 
@@ -88,6 +102,32 @@ function Fragment:update(dt)
   end
 
 end
+
+function Fragment:place(x, y)
+  self.placeLocationX, self.placeLocationY = x, y
+  self.pickupTarget = nil
+  self.isPlaced = true
+  self.x = x
+  self.y = y
+  self.isPlatform = true
+  world:update(self, x, y)
+end
+
+
+
 function Fragment:draw()
-  love.graphics.draw(fragment_set, self.image, self.x-1, self.y-1)
+  if self.health > 0 then
+    love.graphics.draw(fragment_set, self.image, self.x-1, self.y-1)
+  end
+end
+
+
+
+function Fragment:takeDamage(amount)
+  if self.destructible == false then return end
+  self.health = self.health - amount
+
+  if self.health == 0 then
+    world:remove(self)
+  end
 end
