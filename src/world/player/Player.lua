@@ -9,19 +9,19 @@ function Player:initialize()
   self.height = 12
   self.x = gamestate.destinations.home.x
   self.y = gamestate.destinations.home.y
+  self.destination      = {x = 1, y = 1}
   self.xVel = 0
   self.yVel = 0
   self.speed = 20
-  self.jumpForce = 3
   self.friction = 10
   self.gravity = 9.81
   self.mass = 10
   self.inputEnabled = true
   self.isFloating   = false
   self.floatingStartPos = self.x
-  self.destination      = {x = 1, y = 1}
   --== Movement
   self.direction      = 'right'
+  self.jumpForce = 3
   self.moving         = false;
   self.grounded       = false;
   self.timeJumped     = 0
@@ -30,11 +30,12 @@ function Player:initialize()
   self.isOnRightWall  = false;
   self.wallHitTime    = 0
   self.wallJumpDelay  = 0.25
+  self.fragmentCount  = 0
+  self.fragments      = {}
 
 
   --== Gameplay
   self.inventory = Inventory()
-
 
   world:add(self, self.x, self.y, self.width, self.height)
 end
@@ -66,15 +67,20 @@ end
 function Player:checkSurroundingsForFragments()
 
   local x,y,w,h = world:getRect(self)
-  -- print("Player Feel: " .. self.x .. ':' .. self.y .. '::' .. x .. ':' .. y)
-  local items, len = world:queryRect(self.x-4, self.y-4, 16, 16)
-  -- local items, len = world:getItems()
+  local items, len = world:queryRect(self.x-26, self.y-4, 64, 16)
 
   for i=1,len do
     if items[i].isFragment == true then
-      local x,y,w,h = world:getRect(items[i])
+      local frag = items[i]
+      -- local x,y,w,h = world:getRect(frag)
 
-      -- print(i .. ': Fragment : ' .. x .. ' : ' .. y .. ': :' .. w .. ':' .. h)
+      if frag.pickupTarget == nil then
+        frag.pickupTarget = self
+        table.insert(self.fragments, frag)
+        self.fragmentCount = self.fragmentCount+1
+        frag.fragmentCount = self.fragmentCount
+      end
+
     end
   end
 
@@ -90,8 +96,7 @@ function Player:draw()
     floating:draw(playerset, self.x, self.y)
     return
   end
-  -- self.inventory:draw()
-  -- love.graphics.setColor(255,255,255,255)
+
 
   if self.grounded ~= true then
     --== Player is either on a wall or midair
@@ -132,7 +137,6 @@ playerFilter = function(item, other)
   elseif other.isFragment then return 'cross'
   elseif other.isPortal then return 'cross'
   elseif other.isBullet then
-    print("Player hit Bullet")
      return 'cross'
   elseif other.isCollectible then return 'cross'
   else

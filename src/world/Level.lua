@@ -60,7 +60,7 @@ function Level:makeCaves()
   local width, height = 50, 25
   mapData = self.levelGenerator.generateCaves(width, height)
 
-  self:makeObjects(mapData, width, height, 0, 500)
+  self:makeObjects(mapData, width, height, 0, 200)
 
 end
 

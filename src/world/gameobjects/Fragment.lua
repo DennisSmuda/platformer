@@ -2,8 +2,8 @@
 Fragment = class('Fragment')
 
 function Fragment:initialize(x, y, type)
-  self.x      = x
-  self.y      = y
+  self.x      = x+8
+  self.y      = y+4
   self.xVel   = love.math.random(-2, 2)
   self.yVel   = love.math.random(-1,-2.5)
   self.gravity = 9.81
@@ -11,21 +11,25 @@ function Fragment:initialize(x, y, type)
   self.width  = 8
   self.height = 8
   self.isFragment = true
+  self.fragmentCount = 0
   self.friction = 3
   self.isGrounded = false
 
 
+  self.pickupTarget = nil
+  self.name = 'Empty'
+
+
   if self.type == 53 then
     self.image = blockFragmentQuad
+    self.name = 'Block'
+    world:add(self, self.x, self.y, self.width, self.height)
   elseif self.type == 51 or self.type == 52 or self.type == 54 then
     self.image = earthFragmentQuad
-  else
-    self.image = stoneore_img
-    self.width = 3
-    self.height= 3
+    self.name = 'Dirt'
+    world:add(self, self.x, self.y, self.width, self.height)
   end
 
-  world:add(self, self.x, self.y, self.width, self.height)
 end
 
 function FragmentFilter(self, other)
@@ -38,6 +42,26 @@ function FragmentFilter(self, other)
 end
 
 function Fragment:update(dt)
+  --== When Item is getting picked up, make it fly towards left of
+  --== the screen (Where Inventory is)
+  if self.pickupTarget then
+
+    if self.fragmentCount == 1 then
+      --== First fragment follows player
+      local goalX, goalY = self.pickupTarget.x-6, self.pickupTarget.y-6
+      self.x = self.x + ((goalX - self.x)*0.05)
+      self.y = self.y + ((goalY - self.y)*0.05)
+      return
+    else
+      local goalX = self.pickupTarget.fragments[self.fragmentCount-1].x-6
+      local goalY = self.pickupTarget.fragments[self.fragmentCount-1].y
+      self.x = self.x + ((goalX - self.x)*0.05)
+      self.y = self.y + ((goalY - self.y)*0.05)
+      return
+    end
+
+  end
+
   local goalX, goalY = self.x+ self.xVel, self.y + self.yVel
   local actualX, actualY, cols, len = world:move(self, goalX, goalY, FragmentFilter)
 
