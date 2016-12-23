@@ -112,7 +112,7 @@ function Tile:takeDamage(amount)
   if self.destructible == false then return end
   self.health = self.health - amount
 
-  if self.health == 0 then
+  if self.health <= 0 then
     level:spawnFragments(self.x, self.y, self.type, self.fragments, self.oreType)
     world:remove(self)
   end

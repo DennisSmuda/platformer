@@ -67,10 +67,10 @@ end
 function Player:checkSurroundingsForFragments()
 
   local x,y,w,h = world:getRect(self)
-  local items, len = world:queryRect(self.x-26, self.y-4, 64, 16)
+  local items, len = world:queryRect(self.x-26, self.y-(4+16), 64, 16+32)
 
   for i=1,len do
-    if items[i].isFragment == true then
+    if items[i].isFragment == true and items[i].isPlacable == true then
       local frag = items[i]
       -- local x,y,w,h = world:getRect(frag)
 
@@ -276,9 +276,7 @@ function Player:handleInput(dt)
     local canJump = now - self.timeJumped > self.jumpDelay
 
     if canJump and self.grounded == true then
-      -- print("Jump")
       self.yVel =  -self.jumpForce
-      -- self.yVel = -3
       self.grounded = false
       self.timeJumped = now
     end
@@ -342,7 +340,6 @@ function Player:handleInput(dt)
     self.direction = 'right'
   end
 
-
 end
 
 
@@ -382,7 +379,6 @@ function Player:placeBlock()
     self.xVel = 0
     table.remove(self.fragments, 1)
     self.fragmentCount = self.fragmentCount - 1
-    print('Place a block: numFrags:  ' .. self.fragmentCount)
     self:updateFragments()
 
   end

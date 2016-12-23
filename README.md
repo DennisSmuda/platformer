@@ -13,3 +13,5 @@ made with [löve](http://www.love2d.org)
 ![running-gif](running.gif)
 ### Shooting
 ![shooting-gif](shooting.gif)
+### Placing Blocks
+![placing-blocks-gif](placing_blocks.gif)

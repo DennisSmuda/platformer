@@ -22,14 +22,17 @@ function Fragment:initialize(x, y, type)
   self.isPlaced = false
   self.name = 'Empty'
   self.isPlatform = false
+  self.isPlacable = false
 
 
   if self.type == 53 then
     self.image = blockFragmentQuad
+    self.isPlacable = true
     self.name = 'Block'
     world:add(self, self.x, self.y, self.width, self.height)
   elseif self.type == 51 or self.type == 52 or self.type == 54 then
     self.image = earthFragmentQuad
+    self.isPlacable = true
     self.name = 'Dirt'
     world:add(self, self.x, self.y, self.width, self.height)
   end
