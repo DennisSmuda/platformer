@@ -74,7 +74,7 @@ function Player:checkSurroundingsForFragments()
       local frag = items[i]
       -- local x,y,w,h = world:getRect(frag)
 
-      if frag.pickupTarget == nil then
+      if frag.pickupTarget == nil and frag.isPlaced == false then
         frag.pickupTarget = self
         table.insert(self.fragments, frag)
         self.fragmentCount = self.fragmentCount+1
@@ -135,7 +135,6 @@ playerFilter = function(item, other)
   if item.isFloating then return 'cross' end
   if other.isPlatform then return 'slide'
   elseif other.isFragment then
-    print("Fragment COllision")
     if other.isPlaced == false then
       return 'cross'
     elseif other.isPlaced == true then
@@ -378,12 +377,21 @@ function Player:placeBlock()
   local items, len = world:queryRect(self.x, self.y+16, 8, 8)
 
   if len == 0 then
-    print("Place that shit")
 
     self.fragments[1]:place(self.x, self.y+16)
     self.xVel = 0
+    table.remove(self.fragments, 1)
+    self.fragmentCount = self.fragmentCount - 1
+    print('Place a block: numFrags:  ' .. self.fragmentCount)
+    self:updateFragments()
 
   end
 
 
+end
+
+function Player:updateFragments()
+  for i,frag in ipairs(self.fragments) do
+    frag.fragmentCount = i
+  end
 end
