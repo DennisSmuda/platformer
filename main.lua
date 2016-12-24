@@ -20,6 +20,7 @@ sti     = require "lib.sti"   -- Anim
 
 --==
 Colors = require "src.config.Colors"
+perlin = require("perlin2")
 
 
 --== Load Sounds
@@ -63,7 +64,8 @@ function love.update(dt)
 end
 
 function love.draw()
-  state:draw()
+  -- state:draw()
+  love.graphics.printf("BUTZ", 10, 10, 120, 'center')
 end
 
 
