@@ -20,7 +20,6 @@ sti     = require "lib.sti"   -- Anim
 
 --==
 Colors = require "src.config.Colors"
-perlin = require("perlin2")
 
 
 --== Load Sounds
@@ -64,8 +63,7 @@ function love.update(dt)
 end
 
 function love.draw()
-  -- state:draw()
-  love.graphics.printf("BUTZ", 10, 10, 120, 'center')
+  state:draw()
 end
 
 
@@ -112,7 +110,6 @@ function loadGraphics()
   rubyOreQuad       = love.graphics.newQuad(16,16,16,16, oreset:getDimensions())
   emeraldOreQuad    = love.graphics.newQuad(32,16,16,16, oreset:getDimensions())
 
-
   --== Effects
   explosionset     = love.graphics.newImage("assets/img/explosion.png")
   block_damage_set = love.graphics.newImage("assets/img/block_break_frames.png")
@@ -120,7 +117,6 @@ function loadGraphics()
   block_damage_2   = love.graphics.newQuad(16,0,16,16, block_damage_set:getDimensions())
   block_damage_3   = love.graphics.newQuad(32,0,16,16, block_damage_set:getDimensions())
   block_damage_4   = love.graphics.newQuad(48,0,16,16, block_damage_set:getDimensions())
-
 
 
   playerset = love.graphics.newImage("assets/img/player.png")
@@ -137,4 +133,8 @@ function loadGraphics()
   floating        = anim8.newAnimation(playerG('5-5', 3), 0.2)
   downing         = anim8.newAnimation(playerG('1-1', 4), 0.2)
 
+  batset          = love.graphics.newImage("assets/img/bat.png")
+  batG            = anim8.newGrid(10, 10, batset:getDimensions())
+  batLeft         = anim8.newAnimation(batG('1-2', 1), 0.15)
+  batRight        = anim8.newAnimation(batG('3-4', 1), 0.15)
 end

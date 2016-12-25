@@ -2,6 +2,7 @@ require "src.config.Levels"
 require "src.ui.GameOverlay"
 require "src.world.Level"
 require "src.world.player.Player"
+require "src.world.enemies.Bat"
 
 
 local Game = state:new()
@@ -33,6 +34,7 @@ function Game.load (args)
 
   level = Level()
   player = Player()
+  bat    = Bat()
   -- cloud = Cloud()
 
 
@@ -76,6 +78,7 @@ function Game.draw()
       level:drawStatics()
 
       player:draw()
+      bat:draw()
       -- platform:draw()
       level:drawCollectibles()
       player:drawInventory()
