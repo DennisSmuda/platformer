@@ -138,7 +138,7 @@ end
 function LevelGenerator.generateCaves(width, height)
   local len = width * height
 
-  local emptygrid = initializeGrid(width, height, 65) --== 65% empty initial spawn
+  local emptygrid = initializeGrid(width, height, 70) --== 65% empty initial spawn
   local cellulargrid = cellularAutomata(emptygrid, width, height)
   local boundedgrid = makeBounds(cellulargrid, width, height)
   --== Start/Finish Locations

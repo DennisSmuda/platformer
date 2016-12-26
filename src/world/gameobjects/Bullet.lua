@@ -107,7 +107,11 @@ function Bullet:update(dt)
       self.exploding = true
       screen:setShake(4)
       world:remove(self)
-      other:takeDamage(1)
+      if other.isPlatform then
+        other:takeDamage(1)
+      elseif other.isEnemy then
+        other:takeDamage(1, self.dir)
+      end
     end
 
   end

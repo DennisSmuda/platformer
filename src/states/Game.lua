@@ -34,7 +34,7 @@ function Game.load (args)
 
   level = Level()
   player = Player()
-  bat    = Bat(87, 404)
+  bat    = Bat(150, 404)
   -- cloud = Cloud()
 
 
@@ -45,7 +45,6 @@ function Game.load (args)
 
   local dx, dy = screenW - camera.x, screenH - camera.y
   camera:lookAt(screenW/2, screenH/2)
-
 
 end
 
@@ -61,10 +60,7 @@ function Game.update (dt)
 
    local dx,dy = player.x - camera.x, player.y - camera.y
    camera:move(dx*0.09, dy*0.09)
-
 end
-
-
 
 
 function Game.draw()
@@ -80,7 +76,7 @@ function Game.draw()
 
       player:draw()
       bat:draw()
-      -- platform:draw()
+
       level:drawCollectibles()
       player:drawInventory()
 
