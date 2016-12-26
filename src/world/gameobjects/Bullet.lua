@@ -66,12 +66,14 @@ function Bullet:initialize(x, y, dir)
 end
 
 function BulletFilter(self, other)
-  if other.isPlatform then return 'touch'
+  if other.isPlatform then
+    return 'touch'
   elseif other.isPlayer == true then
-    -- print("Player HIT: " .. love.timer.getTime())
      return 'cross'
   elseif other.isCollectible or other.isFragment then
     return 'cross'
+  elseif other.isEnemy then
+    return 'touch'
   end
 end
 
@@ -101,7 +103,7 @@ function Bullet:update(dt)
     local other = cols[i].other
     local normal = cols[i].normal
 
-    if other.isPlatform == true then
+    if other.isPlatform == true or other.isEnemy == true then
       self.exploding = true
       screen:setShake(4)
       world:remove(self)
@@ -115,7 +117,7 @@ end
 function Bullet:draw()
 
   if self.exploding == false and self.dead == false then
-    love.graphics.draw(self.image, self.x+self.xOff, self.y+self.yOff)
+    love.graphics.draw(self.image, self.x, self.y)
   elseif self.exploding == true and self.dead == false then
     self.explosion_anim:draw(explosionset, self.x+self.explosionXOff, self.y+self.explosionYOff)
     --== Draw Particles after destruction

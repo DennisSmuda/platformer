@@ -34,7 +34,7 @@ function Game.load (args)
 
   level = Level()
   player = Player()
-  bat    = Bat()
+  bat    = Bat(87, 404)
   -- cloud = Cloud()
 
 
@@ -56,6 +56,7 @@ function Game.update (dt)
   screen:update(dt)
 
   player:update(dt)
+  bat:update(dt)
 
 
    local dx,dy = player.x - camera.x, player.y - camera.y
