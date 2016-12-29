@@ -34,7 +34,7 @@ function Game.load (args)
 
   level = Level()
   player = Player()
-  bat    = Bat(150, 404)
+  bat    = Bat(120, 404)
   -- cloud = Cloud()
 
 

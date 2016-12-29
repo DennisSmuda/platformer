@@ -17,6 +17,7 @@ Camera  = require "lib.camera"  -- Camera
 Signal  = require "lib.signal"  -- Eventing
 anim8   = require "lib.anim8"   -- Anim
 sti     = require "lib.sti"   -- Anim
+LightWorld = require "lib.light_world"
 
 --==
 Colors = require "src.config.Colors"
@@ -49,8 +50,14 @@ function love.load()
   -- print(font:getFilter())
   love.graphics.setFont(game_font)
 
-  loadGraphics()
 
+  lightWorld = LightWorld({
+    ambient = {55,55,55},
+    refractionStrength = 32.0,
+    reflectionVisibility = 0.75,
+  })
+  loadGraphics()
+  
   state:switch("src.states.Game" ,{})
 
   --== Screen Dimension Globals
@@ -119,8 +126,11 @@ function loadGraphics()
   block_damage_4   = love.graphics.newQuad(48,0,16,16, block_damage_set:getDimensions())
 
 
-  playerset = love.graphics.newImage("assets/img/player.png")
-  playerG   = anim8.newGrid(12,12, playerset:getDimensions())
+  playerset   = love.graphics.newImage("assets/img/player.png")
+  playerset_n = love.graphics.newImage("assets/img/player_n.png")
+  lightAnim   = lightWorld:newAnimationGrid(playerset, 100, 100)
+  lightAnim:setNormalMap(playerset_n)
+  playerG     = lightAnim:newGrid(12,12)
   --== Player Animations
   walkingRight    = anim8.newAnimation(playerG('1-2', 1), 0.15)
   walkingLeft     = anim8.newAnimation(playerG('3-4', 1), 0.15)

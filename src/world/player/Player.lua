@@ -135,15 +135,12 @@ playerFilter = function(item, other)
   if item.isFloating then return 'cross' end
   if other.isPlatform then return 'slide'
   elseif other.isFragment then
-    if other.isPlaced == false then
-      return 'cross'
-    elseif other.isPlaced == true then
-      return 'slide'
-    end
-  elseif other.isPortal then return 'cross'
-  elseif other.isBullet then
-     return 'cross'
+    if other.isPlaced == false then return 'cross'
+    elseif other.isPlaced == true then return 'slide' end
+  elseif other.isPortal then      return 'cross'
+  elseif other.isBullet then      return 'cross'
   elseif other.isCollectible then return 'cross'
+  elseif other.isEnemy then       return 'cross'
   else
     return 'slide'
   end
@@ -202,6 +199,14 @@ function Player:move(dt)
       other:toggleMessage(true)
       other:update(dt)
 
+    elseif other.isEnemy then
+
+      if normal.x == -1 then
+        player.xVel = -7
+        player.yVel = -4
+        -- player.inputEnabled = false
+
+      end
     end
 
   end
@@ -214,8 +219,6 @@ function Player:move(dt)
   if isTouchingPortal == false then
     level:resetStaticMessages()
   end
-
-
 
   --== Apply Friction
   self.xVel = self.xVel * (1 - math.min(dt*self.friction, 1))
